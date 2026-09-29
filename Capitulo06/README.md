@@ -1,34 +1,24 @@
-# Laboratorio 6 — Persistencia local de preferencias y datos
+# Laboratorio 6.1 — Persistencia local de preferencias y datos
 
-## 1. Metadatos
+<br/><br/>
 
-| Campo | Valor |
-|---|---|
-| **Duración** | 144 minutos |
-| **Complejidad** | Media |
-| **Nivel Bloom** | Aplicar |
-| **Proyecto** | `Lab6/PersistenciaLocal` |
-| **Paquete base** | `com.cursokotlin.android.persistencialocal` |
-
----
-
-## 2. Descripción General
+## Descripción General
 
 En este laboratorio implementarás los cuatro mecanismos principales de persistencia local en Android dentro de un único proyecto: **SharedPreferences** para datos clave-valor síncronos, **Jetpack DataStore** como alternativa asíncrona basada en coroutines y Flow, **almacenamiento interno/externo** mediante archivos de texto, y **Room** como base de datos local con entidades, DAOs y procesamiento de anotaciones KSP. Al finalizar, podrás comparar cada mecanismo y seleccionar el más adecuado según el tipo y volumen de datos que necesite tu aplicación.
 
----
+<br/><br/>
 
-## 3. Objetivos de Aprendizaje
+## Objetivos de Aprendizaje
 
-- [ ] Implementar almacenamiento clave-valor con SharedPreferences para guardar y recuperar preferencias simples del usuario entre sesiones.
-- [ ] Utilizar Jetpack DataStore (Preferences DataStore) con coroutines y Flow como alternativa moderna y asíncrona a SharedPreferences.
-- [ ] Leer y escribir archivos de texto en el almacenamiento interno del dispositivo usando las APIs `openFileOutput` / `openFileInput`.
-- [ ] Crear una base de datos local con Room definiendo `@Entity`, `@Dao` y `@Database`, y verificar la persistencia de registros estructurados.
-- [ ] Comparar los distintos mecanismos de persistencia y justificar cuál es más adecuado según el escenario.
+- Implementar almacenamiento clave-valor con SharedPreferences para guardar y recuperar preferencias simples del usuario entre sesiones.
+- Utilizar Jetpack DataStore (Preferences DataStore) con coroutines y Flow como alternativa moderna y asíncrona a SharedPreferences.
+- Leer y escribir archivos de texto en el almacenamiento interno del dispositivo usando las APIs `openFileOutput` / `openFileInput`.
+- Crear una base de datos local con Room definiendo `@Entity`, `@Dao` y `@Database`, y verificar la persistencia de registros estructurados.
+- Comparar los distintos mecanismos de persistencia y justificar cuál es más adecuado según el escenario.
 
----
+<br/><br/>
 
-## 4. Prerrequisitos
+## Prerrequisitos
 
 ### Conocimientos previos
 
@@ -40,66 +30,10 @@ En este laboratorio implementarás los cuatro mecanismos principales de persiste
 | Kotlin: `suspend`, `CoroutineScope`, `Flow` (conceptos básicos) | Básico |
 | ViewModel básico | Básico |
 
-### Acceso y herramientas
+ 
+<br/><br/>
 
-| Recurso | Detalle |
-|---|---|
-| Android Studio | Quail 3 — 2026.1.3 Patch 1 |
-| AVDs configurados | API 30, API 36 (principal) |
-| Conexión a Internet | Para descarga de dependencias Gradle |
-| Directorio de trabajo | `C:\AndroidCursoBasico\` (Windows) o `~/AndroidCursoBasico/` (macOS/Linux) |
-
----
-
-## 5. Entorno del Laboratorio
-
-### Hardware mínimo
-
-| Componente | Especificación |
-|---|---|
-| CPU | Intel Core i5 8.ª gen. / AMD Ryzen 5 (VT-x/AMD-V habilitado) |
-| RAM | 16 GB mínimo |
-| Disco | 50 GB libres en SSD |
-| Pantalla | 1280×800 mínimo (1920×1080 recomendado) |
-
-### Software requerido
-
-| Herramienta | Versión |
-|---|---|
-| Android Studio | Quail 3 (2026.1.3 Patch 1) |
-| Kotlin | 2.2.10 |
-| AGP | 9.3.2 |
-| Gradle | 8.14.1 |
-| JDK | 11 (`JavaVersion.VERSION_11`) |
-| compileSdk / targetSdk | 37 |
-| minSdk | 30 |
-| Room | 2.8.4 |
-| KSP | 2.2.10-1.0.28 |
-| DataStore Preferences | 1.1.4 |
-| Core KTX | 1.19.0 |
-| Lifecycle Runtime KTX | 2.6.1 |
-
-### Verificación rápida del entorno
-
-Abre una terminal integrada en Android Studio y ejecuta:
-
-```bash
-java -version
-```
-
-**Salida esperada** (puede variar el build):
-
-```
-openjdk version "11.0.x" ...
-```
-
-Verifica también que los AVDs API 30 y API 36 estén disponibles en **Device Manager** de Android Studio.
-
----
-
-## 6. Instrucciones Paso a Paso
-
----
+## Instrucciones 
 
 ### Paso 1 — Crear el proyecto base
 
@@ -126,13 +60,17 @@ Verifica también que los AVDs API 30 y API 36 estén disponibles en **Device Ma
 
 5. Haz clic en **Finish** y espera a que Gradle sincronice completamente.
 
+<br/>
+
 **Verificación:**
 
 - El proyecto se abre sin errores en la barra de estado.
 - Existe el archivo `app/src/main/res/layout/activity_main.xml`.
 - Existe `app/src/main/java/com/cursokotlin/android/persistencialocal/MainActivity.kt`.
 
----
+<br/><br/>
+
+<OJO> 
 
 ### Paso 2 — Configurar el catálogo de versiones `libs.versions.toml`
 
@@ -192,13 +130,15 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ```
 
+<br/>
+
 3. Guarda el archivo.
 
 **Verificación:**
 
 - No aparecen errores de sintaxis en el archivo TOML.
 
----
+<br/><br/>
 
 ### Paso 3 — Configurar los archivos Gradle del proyecto
 
@@ -301,7 +241,7 @@ BUILD SUCCESSFUL in Xs
 - La sincronización de Gradle finaliza sin errores.
 - En la ventana **Build**, no hay advertencias de versiones incompatibles.
 
----
+<br/><br/>
 
 ### Paso 4 — Configurar la navegación entre secciones (MainActivity)
 
@@ -359,6 +299,9 @@ BUILD SUCCESSFUL in Xs
 </LinearLayout>
 ```
 
+<br/>
+
+
 2. Abre `MainActivity.kt` y reemplaza su contenido con:
 
 ```kotlin
@@ -397,14 +340,19 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+
+
 > **Nota:** Las Activities referenciadas aún no existen. Las crearemos en los pasos siguientes. El proyecto no compilará hasta completar el Paso 5.
+
+<br/>
 
 **Verificación:**
 
 - El archivo XML no muestra errores de sintaxis en el editor visual.
 - El código Kotlin muestra errores de referencia esperados (clases no creadas aún).
 
----
+<br/><br/>
 
 ### Paso 5 — SECCIÓN 1: SharedPreferences (~30 min)
 
@@ -489,6 +437,8 @@ class MainActivity : AppCompatActivity() {
 </LinearLayout>
 ```
 
+<br/>
+
 2. Crea la clase `SharedPrefsActivity.kt` en el paquete principal:
 
 ```kotlin
@@ -565,6 +515,8 @@ class SharedPrefsActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+
 3. Registra la Activity en `AndroidManifest.xml`. Abre el archivo y añade dentro de `<application>`, **antes** de la etiqueta de cierre `</application>`:
 
 ```xml
@@ -572,9 +524,13 @@ class SharedPrefsActivity : AppCompatActivity() {
     android:exported="false" />
 ```
 
+<br/>
+
 > **Importante:** Cada nueva Activity que crees en este laboratorio debe registrarse en el manifiesto. Repetiremos esta indicación en cada sección.
 
-4. Compila el proyecto con **Build → Make Project** (Ctrl+F9 / Cmd+F9).
+<br/>
+
+4. Compila el proyecto con **Build** (Ctrl+F9 / Cmd+F9).
 
 > **Nota:** La compilación fallará porque las otras tres Activities aún no existen. Puedes crear archivos vacíos temporales o esperar al final del Paso 8 para la primera compilación completa. Si prefieres compilar ahora, comenta temporalmente los tres listeners restantes en `MainActivity.kt`.
 
@@ -586,12 +542,13 @@ class SharedPrefsActivity : AppCompatActivity() {
 
 **Verificación:**
 
-- Escribe "María López" en el campo de nombre, activa el switch y guarda.
+- Escribe "Leticia López" en el campo de nombre, activa el switch y guarda.
 - Cierra la app desde el menú de recientes del emulador.
-- Reabre la app y navega a Sección 1: el campo muestra "María López" y el switch está activado.
+- Reabre la app y navega a Sección 1: el campo muestra "Leticia López" y el switch está activado.
 - Presiona "Limpiar Preferencias" y verifica que ambos campos se reinician.
+- Verifica los mensajes en el Logcat.
 
----
+<br/><br/>
 
 ### Paso 6 — SECCIÓN 2: DataStore Preferences (~35 min)
 
@@ -659,6 +616,8 @@ object SettingsDataStore {
     }
 }
 ```
+
+<br/>
 
 2. Crea el layout `app/src/main/res/layout/activity_data_store.xml`:
 
@@ -736,6 +695,8 @@ object SettingsDataStore {
 
 </LinearLayout>
 ```
+
+<br/>
 
 3. Crea la clase `DataStoreActivity.kt`:
 
@@ -821,12 +782,16 @@ class DataStoreActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+
 4. Registra la Activity en `AndroidManifest.xml`:
 
 ```xml
 <activity android:name=".DataStoreActivity"
     android:exported="false" />
 ```
+
+<br/>
 
 **Salida esperada:**
 
@@ -838,9 +803,9 @@ class DataStoreActivity : AppCompatActivity() {
 
 - Guarda "Carlos Ruiz" con modo oscuro activado.
 - Cierra la app completamente y reabre → los datos persisten.
-- Observa en Logcat que no hay advertencias de operaciones en hilo principal (a diferencia de `commit()` en SharedPreferences).
+- Observa en Logcat que no hay advertencias de operaciones en hilo principal.
 
----
+<br/><br/>
 
 ### Paso 7 — SECCIÓN 3: Archivos en almacenamiento interno (~35 min)
 
@@ -946,6 +911,8 @@ class DataStoreActivity : AppCompatActivity() {
 </LinearLayout>
 ```
 
+<br/>
+
 2. Crea la clase `ArchivosActivity.kt`:
 
 ```kotlin
@@ -1045,6 +1012,8 @@ class ArchivosActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+
 3. Registra la Activity en `AndroidManifest.xml`:
 
 ```xml
@@ -1052,12 +1021,17 @@ class ArchivosActivity : AppCompatActivity() {
     android:exported="false" />
 ```
 
+<br/>
+
 **Salida esperada:**
 
 - Al escribir texto y presionar "Escribir", se agrega una línea con timestamp al archivo.
 - Al presionar "Leer", se muestra todo el contenido acumulado del archivo.
 - La ruta del archivo se muestra en la parte inferior (ej: `/data/data/com.cursokotlin.android.persistencialocal/files/log_actividad.txt`).
 - Al cerrar y reabrir la app, el contenido persiste.
+- Observa los mensajes en el Logcat.
+
+<br/>
 
 **Verificación:**
 
@@ -1066,7 +1040,7 @@ class ArchivosActivity : AppCompatActivity() {
 - Presiona "Eliminar Archivo" y verifica que el contenido desaparece.
 - Intenta leer nuevamente → muestra "(archivo no encontrado)".
 
----
+<br/><br/>
 
 ### Paso 8 — SECCIÓN 4: Introducción a Room (~44 min)
 
@@ -1095,6 +1069,8 @@ data class Nota(
 )
 ```
 
+<br/>
+
 #### 8b — Definir el DAO
 
 3. En el mismo paquete `room`, crea el archivo `NotaDao.kt`:
@@ -1122,6 +1098,8 @@ interface NotaDao {
     suspend fun eliminarTodas()
 }
 ```
+
+<br/>
 
 #### 8c — Definir la base de datos
 
@@ -1158,6 +1136,8 @@ abstract class NotaDatabase : RoomDatabase() {
     }
 }
 ```
+
+<br/>
 
 #### 8d — Crear el layout de la pantalla Room
 
@@ -1247,6 +1227,8 @@ abstract class NotaDatabase : RoomDatabase() {
 </LinearLayout>
 ```
 
+<br/>
+
 #### 8e — Crear el layout del item de nota
 
 6. Crea el archivo `app/src/main/res/layout/item_nota.xml`:
@@ -1311,6 +1293,8 @@ abstract class NotaDatabase : RoomDatabase() {
 </com.google.android.material.card.MaterialCardView>
 ```
 
+<br/>
+
 #### 8f — Crear el Adapter del RecyclerView
 
 7. Crea el archivo `NotaAdapter.kt` en el paquete `room`:
@@ -1361,6 +1345,8 @@ class NotaAdapter(
     }
 }
 ```
+
+<br/>
 
 #### 8g — Crear la Activity de Room
 
@@ -1465,6 +1451,8 @@ class RoomActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+
 9. Registra la Activity en `AndroidManifest.xml`:
 
 ```xml
@@ -1472,12 +1460,16 @@ class RoomActivity : AppCompatActivity() {
     android:exported="false" />
 ```
 
+<br/>
+
 **Salida esperada:**
 
 - Al abrir la Sección 4, el RecyclerView está vacío con el contador "Notas: 0".
 - Al agregar una nota con título y contenido, aparece como una tarjeta en la lista.
 - Cada tarjeta muestra el título, contenido, ID y un botón para eliminar.
 - El contador se actualiza dinámicamente.
+
+<br/>
 
 **Verificación:**
 
@@ -1487,7 +1479,7 @@ class RoomActivity : AppCompatActivity() {
 - Cierra la app completamente desde recientes.
 - Reabre la app y navega a Sección 4 → las notas "Nota 1" y "Nota 3" persisten.
 
----
+<br/><br/>
 
 ### Paso 9 — Compilar y ejecutar el proyecto completo
 
@@ -1508,9 +1500,15 @@ class RoomActivity : AppCompatActivity() {
     android:exported="false" />
 ```
 
+<br/>
+
 2. Selecciona el AVD **API 36** en la barra de herramientas.
 
+<br/>
+
 3. Ejecuta la app con **Run → Run 'app'** (Shift+F10).
+
+<br/>
 
 4. En la pantalla principal, prueba cada sección en orden:
    - **Sección 1:** Guarda nombre y modo oscuro → cierra y reabre → verifica persistencia.
@@ -1518,18 +1516,22 @@ class RoomActivity : AppCompatActivity() {
    - **Sección 3:** Escribe varias entradas de log → cierra y reabre → verifica que el archivo persiste.
    - **Sección 4:** Agrega notas → elimina una → cierra y reabre → verifica persistencia.
 
+<br/>
+
 **Salida esperada en Build:**
 
 ```
 BUILD SUCCESSFUL in Xs
 ```
 
+<br/>
+
 **Verificación final:**
 
 - Las cuatro secciones funcionan sin crashes.
 - Los datos persisten después de cerrar y reabrir la app en todas las secciones.
 
----
+<br/><br/>
 
 ### Paso 10 — Validar compatibilidad con minSdk (AVD API 30)
 
@@ -1539,7 +1541,11 @@ BUILD SUCCESSFUL in Xs
 
 1. En la barra de herramientas, cambia el dispositivo de ejecución al AVD **API 30**.
 
+<br/>
+
 2. Ejecuta la app con **Run → Run 'app'**.
+
+<br/>
 
 3. Repite las pruebas básicas de cada sección:
    - SharedPreferences: guardar y recuperar.
@@ -1547,19 +1553,24 @@ BUILD SUCCESSFUL in Xs
    - Archivos: escribir y leer.
    - Room: agregar y listar notas.
 
+<br/>
+
 **Salida esperada:**
 
 - La app se instala y ejecuta sin errores en API 30.
 - Todas las funcionalidades de persistencia operan correctamente.
+
+<br/>
 
 **Verificación:**
 
 - No aparecen errores de tipo `NoClassDefFoundError` ni `NoSuchMethodError` en Logcat.
 - El comportamiento es idéntico al AVD API 36.
 
----
+<br/>
+<br/>
 
-## 7. Validación y Pruebas
+## Validación y Pruebas
 
 ### Prueba integral de persistencia
 
@@ -1578,18 +1589,24 @@ Ejecuta la siguiente secuencia completa en el AVD API 36:
 | 9 | Sección 3: Verificar | Las dos entradas de log persisten |
 | 10 | Sección 4: Verificar | 2 notas persisten |
 
+<br/>
+
 ### Verificación con Device File Explorer
 
 1. En Android Studio, abre **View → Tool Windows → Device File Explorer**.
+
+<br/>
+
 2. Navega a `/data/data/com.cursokotlin.android.persistencialocal/`:
    - `shared_prefs/user_preferences.xml` → Verifica las claves `nombre_usuario` y `modo_oscuro`.
    - `files/log_actividad.txt` → Verifica el contenido del log.
    - `files/datastore/settings_datastore.preferences_pb` → Archivo binario de DataStore (no legible directamente).
    - `databases/notas_database` → Archivo de base de datos Room.
 
----
+<br/>
+<br/>
 
-## 8. Solución de Problemas
+## Solución de Problemas
 
 ### Problema 1: Error de compilación KSP con Room — "Cannot find implementation for database"
 
@@ -1639,7 +1656,9 @@ El plugin KSP no está aplicado correctamente o la versión de KSP no es compati
 
 6. Ejecuta **Build → Clean Project** seguido de **Build → Rebuild Project**.
 
----
+<br/>
+<br/>
+
 
 ### Problema 2: DataStore lanza `IllegalStateException` — "There are multiple DataStores active for the same file"
 
@@ -1679,15 +1698,20 @@ La extensión `preferencesDataStore` se declaró dentro de una clase o función 
 
 3. Si el error persiste después de corregir la ubicación, desinstala la app del emulador (**Settings → Apps → PersistenciaLocal → Uninstall**) y vuelve a ejecutar.
 
----
+<br/>
+<br/>
 
-## 9. Limpieza
+## Limpieza
 
 Una vez completado y verificado el laboratorio:
 
 1. **Detén la ejecución** de la app en el emulador (botón Stop en Android Studio).
 
+<br/>
+
 2. **No elimines el proyecto.** Este laboratorio es prerequisito del Laboratorio 7, donde integrarás al menos uno de estos mecanismos de persistencia en el proyecto final.
+
+<br/>
 
 3. Si deseas liberar espacio en el emulador durante pruebas futuras, puedes desinstalar la app desde el AVD:
 
@@ -1697,11 +1721,14 @@ Una vez completado y verificado el laboratorio:
 
    Esto eliminará todos los archivos de SharedPreferences, DataStore, almacenamiento interno y la base de datos Room asociados a la app.
 
+<br/>
+
 4. **Opcional:** Para detener los AVDs y liberar RAM, cierra los emuladores desde el **Device Manager** de Android Studio.
 
----
+<br/>
+<br/>
 
-## 10. Resumen
+## Resumen
 
 ### Lo que implementaste
 
@@ -1714,6 +1741,9 @@ En este laboratorio construiste un proyecto Android completo con cuatro mecanism
 | **Archivos internos** | Texto libre / binario | Síncrona (I/O streams) | Principal (requiere manejo manual para archivos grandes) |
 | **Room** | Datos estructurados (relacional) | Asíncrona (suspend + coroutines) | Background (coroutines) |
 
+<br/>
+<br/>
+
 ### Criterios de selección
 
 | Escenario | Mecanismo recomendado |
@@ -1723,6 +1753,9 @@ En este laboratorio construiste un proyecto Android completo con cuatro mecanism
 | Logs, exportaciones de texto, archivos temporales | Almacenamiento interno/externo |
 | Datos estructurados con relaciones y consultas | Room |
 
+<br/>
+<br/>
+
 ### Conceptos clave reforzados
 
 - Las claves de SharedPreferences deben definirse como **constantes** para evitar errores tipográficos.
@@ -1731,12 +1764,20 @@ En este laboratorio construiste un proyecto Android completo con cuatro mecanism
 - Room requiere **KSP** para generar las implementaciones de DAO y Database en tiempo de compilación.
 - La versión de KSP debe coincidir con la versión de Kotlin (`2.2.10-1.0.28` para Kotlin `2.2.10`).
 
+<br/>
+<br/>
+
 ### Recursos adicionales
 
-- [SharedPreferences — Android Developers](https://developer.android.com/training/data-storage/shared-preferences)
-- [DataStore — Android Developers](https://developer.android.com/topic/libraries/architecture/datastore)
-- [Almacenamiento interno — Android Developers](https://developer.android.com/training/data-storage/app-specific)
-- [Room Persistence Library — Android Developers](https://developer.android.com/training/data-storage/room)
-- [KSP (Kotlin Symbol Processing) — GitHub](https://github.com/google/ksp)
+Sí, faltó la breve descripción de cada recurso. Quedaría así:
 
----
+▸ [https://developer.android.com/training/data-storage/shared-preferences](https://developer.android.com/training/data-storage/shared-preferences) — Explica cómo guardar pares clave-valor con `SharedPreferences`.
+
+▸ [https://developer.android.com/topic/libraries/architecture/datastore](https://developer.android.com/topic/libraries/architecture/datastore) — Presenta DataStore para almacenar preferencias y datos pequeños de forma asíncrona.
+
+▸ [https://developer.android.com/training/data-storage/app-specific](https://developer.android.com/training/data-storage/app-specific) — Describe cómo guardar archivos en el almacenamiento específico de la aplicación.
+
+▸ [https://developer.android.com/training/data-storage/room](https://developer.android.com/training/data-storage/room) — Explica cómo usar Room para almacenar datos estructurados en una base de datos local.
+
+▸ [https://github.com/google/ksp](https://github.com/google/ksp) — Repositorio de KSP, la herramienta de procesamiento de símbolos de Kotlin utilizada por bibliotecas como Room.
+

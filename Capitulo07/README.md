@@ -1,118 +1,55 @@
----LAB_START---
-LAB_ID: 07-00-01
----MARKDOWN---
-# Laboratorio 7 — Desarrollo e integración del proyecto final Android
 
-## 1. Metadatos
+# Laboratorio 7.1 — Desarrollo e integración del proyecto final Android
 
-| Campo | Valor |
-|---|---|
-| **Duración** | 216 minutos (6 fases) |
-| **Complejidad** | Alta |
-| **Nivel Bloom** | Crear |
 
----
+## Descripción general
 
-## 2. Descripción general
+Este laboratorio es el **proyecto integrador final** del curso básico de desarrollo Android. A lo largo de seis fases secuenciales, planearás, construirás, probarás y presentarás una aplicación Android completa llamada **NotaKMP** — una app de notas multimedia con persistencia local. El proyecto sintetiza todos los conocimientos adquiridos en los Laboratorios 1.1 al 6.1: configuración del entorno, Kotlin, Activities, navegación con Intents, construcción de UI con XML Layouts, integración multimedia y persistencia de datos. Al finalizar, entregarás un repositorio Git con código fuente funcional, APK de depuración y documentación.
 
-Este laboratorio es el **proyecto integrador final** del curso básico de desarrollo Android. A lo largo de seis fases secuenciales, planearás, construirás, probarás y presentarás una aplicación Android completa llamada **NotaKMP** — una app de notas multimedia con persistencia local. El proyecto sintetiza todos los conocimientos adquiridos en los Laboratorios 1 al 6: configuración del entorno, Kotlin, Activities, navegación con Intents, construcción de UI con XML Layouts, integración multimedia y persistencia de datos. Al finalizar, entregarás un repositorio Git con código fuente funcional, APK de depuración y documentación.
+<br/>
+<br/>
 
----
-
-## 3. Objetivos de aprendizaje
+## Objetivos de aprendizaje
 
 Al completar este laboratorio serás capaz de:
 
-- [ ] Planear y documentar una aplicación Android original de nivel básico-intermedio con alcance acotado, pantallas identificadas, flujo de navegación y requisitos funcionales claros.
-- [ ] Construir todas las pantallas de la aplicación con navegación funcional entre ellas, aplicando Activities, Intents explícitos y XML Layouts.
-- [ ] Integrar al menos un elemento multimedia (imágenes desde galería, reproducción de audio o captura de cámara) gestionando correctamente el ciclo de vida.
-- [ ] Implementar al menos un mecanismo de persistencia local (SharedPreferences, DataStore o Room) para que la app conserve datos entre sesiones.
-- [ ] Ejecutar pruebas funcionales básicas sobre los flujos principales de la aplicación en AVD API 36 y AVD API 30, documentando y corrigiendo defectos críticos.
+- Planear y documentar una aplicación Android original de nivel básico-intermedio con alcance acotado, pantallas identificadas, flujo de navegación y requisitos funcionales claros.
+- Construir todas las pantallas de la aplicación con navegación funcional entre ellas, aplicando Activities, Intents explícitos y XML Layouts.
+- Integrar al menos un elemento multimedia (imágenes desde galería, reproducción de audio o captura de cámara) gestionando correctamente el ciclo de vida.
+- Implementar al menos un mecanismo de persistencia local (SharedPreferences, DataStore o Room) para que la app conserve datos entre sesiones.
+- Ejecutar pruebas funcionales básicas sobre los flujos principales de la aplicación en AVD API 36 y AVD API 30, documentando y corrigiendo defectos críticos.
 
----
+<br/>
+<br/>
 
-## 4. Prerrequisitos
+## Prerrequisitos
 
 ### Conocimientos requeridos
 
 | Conocimiento | Laboratorio de referencia |
 |---|---|
-| Configuración de Android Studio Quail 3, SDK y AVDs | Lab 1 |
-| Fundamentos de Kotlin (clases, funciones, colecciones) | Lab 2 |
-| Activities, ciclo de vida e Intents explícitos | Lab 3 |
-| Construcción de UI con XML Layouts (ConstraintLayout, RecyclerView) | Lab 4 |
-| Integración multimedia (MediaPlayer, galería, cámara) | Lab 5 |
-| Persistencia local (SharedPreferences, DataStore o Room) | Lab 6 |
+| Configuración de Android Studio Quail 3, SDK y AVDs | Lab 1.1 |
+| Fundamentos de Kotlin (clases, funciones, colecciones) | Lab 2.1 |
+| Activities, ciclo de vida e Intents explícitos | Lab 3.1 |
+| Construcción de UI con XML Layouts (ConstraintLayout, RecyclerView) | Lab 4.1 |
+| Integración multimedia (MediaPlayer, galería, cámara) | Lab 5.1 |
+| Persistencia local (SharedPreferences, DataStore o Room) | Lab 6.1 |
 | Uso básico de Git para control de versiones | Todos |
+
+<br/>
 
 ### Acceso requerido
 
-- Laboratorios 1 al 6 completados satisfactoriamente.
+- Laboratorios 1.1 al 6.1 completados satisfactoriamente.
 - Android Studio Quail 3 (2026.1.3 Patch 1) instalado y funcional.
 - AVDs configurados para API 30, 36 y 37.
 - Git 2.47.1 instalado y configurado con nombre y correo.
 - Conexión a Internet para descarga de dependencias Gradle.
 
----
+<br/>
+<br/>
 
-## 5. Entorno de laboratorio
-
-### Hardware mínimo
-
-| Componente | Requisito |
-|---|---|
-| Procesador | 64 bits, Intel i5 8ª gen. o AMD Ryzen 5, con VT-x/AMD-V habilitado |
-| RAM | 16 GB mínimo (32 GB recomendado) |
-| Disco | 50 GB libres en SSD |
-| Pantalla | 1280×800 mínimo (1920×1080 recomendado) |
-| GPU | Compatible con OpenGL ES 2.0+ |
-
-### Software requerido
-
-| Software | Versión |
-|---|---|
-| Android Studio | Quail 3 — 2026.1.3 Patch 1 |
-| Kotlin | 2.2.10 |
-| AGP | 9.3.2 |
-| Gradle | 9.3.2 |
-| JDK | 11 (JavaVersion.VERSION_11) |
-| compileSdk / targetSdk | 37 |
-| minSdk | 30 |
-| Compose BOM | 2026.02.01 (solo si se usa Compose) |
-| Git | 2.47.1 |
-| AVDs | API 30, 36 |
-
-### Directorio de trabajo
-
-Todo el proyecto se creará dentro del directorio estándar del curso:
-
-**Windows:**
-```
-C:\AndroidCursoBasico\Lab7\NotaKMP\
-```
-
-**macOS / Linux:**
-```
-~/AndroidCursoBasico/Lab7/NotaKMP/
-```
-
-### Preparación inicial del directorio
-
-**Windows (PowerShell):**
-```powershell
-New-Item -ItemType Directory -Force -Path "C:\AndroidCursoBasico\Lab7"
-```
-
-**macOS / Linux (Terminal):**
-```bash
-mkdir -p ~/AndroidCursoBasico/Lab7
-```
-
----
-
-## 6. Pasos del laboratorio
-
----
+## Pasos del laboratorio
 
 ### FASE 1 — Definición y planeación del proyecto (30 minutos)
 
@@ -125,20 +62,14 @@ Definir el alcance completo de la aplicación **NotaKMP** mediante un documento 
 1. **Crear el directorio del proyecto y el repositorio Git:**
 
    **Windows:**
-   ```powershell
+   ```cmd
    cd C:\AndroidCursoBasico\Lab7
    mkdir NotaKMP
    cd NotaKMP
    git init
    ```
 
-   **macOS / Linux:**
-   ```bash
-   cd ~/AndroidCursoBasico/Lab7
-   mkdir NotaKMP
-   cd NotaKMP
-   git init
-   ```
+<br/>
 
 2. **Crear el archivo `PLANNING.md`** en la raíz del directorio `NotaKMP/` con el siguiente contenido. Este documento define el alcance completo del proyecto:
 
@@ -215,12 +146,16 @@ Definir el alcance completo de la aplicación **NotaKMP** mediante un documento 
    7. La rotación de pantalla no pierde datos del formulario.
 
    ## Plan de trabajo (fases del laboratorio)
-   - Fase 2: Crear proyecto, pantallas y navegación
-   - Fase 3: Integrar selección de imagen desde galería
-   - Fase 4: Implementar persistencia con SharedPreferences
-   - Fase 5: Pruebas funcionales en AVD API 36 y API 30
-   - Fase 6: Presentación final
+   - Fase 1: Definición y planeaci+on del proyecto.
+   - Fase 2: Crear proyecto, pantallas y navegación.
+   - Fase 3: Integrar selección de imagen desde galería.
+   - Fase 4: Implementar persistencia con SharedPreferences.
+   - Fase 5: Pruebas funcionales en AVD API 36 y API 30.
+   - Fase 6: Presentación final.
    ```
+
+<br/>
+<br/>
 
 3. **Dibujar el diagrama de flujo de navegación** en papel o herramienta digital. El diagrama debe mostrar:
    - `MainActivity` (lista) conecta con `NoteDetailActivity` al tocar una nota.
@@ -228,18 +163,29 @@ Definir el alcance completo de la aplicación **NotaKMP** mediante un documento 
    - `NoteEditorActivity` regresa a `MainActivity` al guardar.
    - `NoteDetailActivity` regresa a `MainActivity` al eliminar.
 
+<br/>
+<br/>
+
 4. **Realizar el commit inicial:**
 
    ```bash
+   git status
    git add PLANNING.md
+   git status
    git commit -m "Fase 1: Documento de planeación del proyecto NotaKMP"
+   git status
    ```
+
+<br/>
+<br/>
 
 #### Resultado esperado
 
 - Archivo `PLANNING.md` completo en la raíz del directorio del proyecto.
 - Repositorio Git inicializado con un commit.
 - Diagrama de navegación documentado (dentro del archivo o como boceto adjunto).
+
+<br/>
 
 #### Verificación
 
@@ -249,7 +195,8 @@ git log --oneline
 
 Debe mostrar un commit con el mensaje de la Fase 1. Verifica que el archivo `PLANNING.md` contiene las 10 secciones listadas.
 
----
+<br/>
+<br/>
 
 ### FASE 2 — Construcción de pantallas, navegación y recursos (60 minutos)
 
@@ -272,6 +219,9 @@ Crear el proyecto Android desde cero, implementar las tres Activities con sus la
    - **Minimum SDK:** API 30 (Android 11)
    - **Build configuration language:** Kotlin DSL (build.gradle.kts)
 5. Hacer clic en **Finish** y esperar la sincronización de Gradle.
+
+<br/>
+<br/>
 
 ##### Paso 2.2 — Configurar el catálogo de versiones
 
@@ -311,6 +261,9 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ```
 
+<br/>
+<br/>
+
 ##### Paso 2.3 — Configurar build.gradle.kts del proyecto raíz
 
 7. Abrir `build.gradle.kts` (nivel proyecto) y verificar que contiene:
@@ -321,6 +274,9 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
 }
 ```
+
+<br/>
+<br/>
 
 ##### Paso 2.4 — Configurar build.gradle.kts del módulo app
 
@@ -385,7 +341,12 @@ dependencies {
 }
 ```
 
+<br/>
 9. Hacer clic en **Sync Now** en la barra amarilla superior. Esperar a que la sincronización termine sin errores.
+
+
+<br/>
+<br/>
 
 ##### Paso 2.5 — Crear el modelo de datos
 
@@ -406,6 +367,9 @@ data class Note(
     val createdAt: Long = System.currentTimeMillis()
 )
 ```
+
+<br/>
+<br/>
 
 ##### Paso 2.6 — Crear el layout de la pantalla principal (lista de notas)
 
@@ -459,6 +423,9 @@ data class Note(
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
+<br/>
+<br/>
+
 13. Crear el layout del ítem de la lista. Hacer clic derecho en `res/layout` > **New > Layout Resource File** > nombre: `item_note.xml`:
 
 ```xml
@@ -501,6 +468,9 @@ data class Note(
 
 </com.google.android.material.card.MaterialCardView>
 ```
+
+<br/>
+<br/>
 
 ##### Paso 2.7 — Crear el layout del editor de notas
 
@@ -597,6 +567,9 @@ data class Note(
 </ScrollView>
 ```
 
+<br/>
+<br/>
+
 ##### Paso 2.8 — Crear el layout del detalle de nota
 
 15. Crear `activity_note_detail.xml` en `res/layout`:
@@ -679,6 +652,9 @@ data class Note(
 </ScrollView>
 ```
 
+<br/>
+<br/>
+
 ##### Paso 2.9 — Crear los recursos de strings y colores
 
 16. Abrir `res/values/strings.xml` y reemplazar con:
@@ -718,6 +694,9 @@ data class Note(
     <color name="red_delete">#FFD32F2F</color>
 </resources>
 ```
+
+<br/>
+<br/>
 
 ##### Paso 2.10 — Crear el adaptador del RecyclerView
 
@@ -767,6 +746,9 @@ class NoteAdapter(
     }
 }
 ```
+
+<br/>
+<br/>
 
 ##### Paso 2.11 — Implementar MainActivity (lista de notas)
 
@@ -848,7 +830,13 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+
 > **Nota:** La clase `NoteStorage` se creará en la Fase 4. Para que el proyecto compile durante la Fase 2, crea una versión provisional en el siguiente paso.
+ 
+
+<br/>
+<br/>
 
 ##### Paso 2.12 — Crear NoteStorage provisional
 
@@ -884,6 +872,9 @@ class NoteStorage(private val context: Context) {
     }
 }
 ```
+
+<br/>
+<br/>
 
 ##### Paso 2.13 — Implementar NoteEditorActivity
 
@@ -1000,6 +991,9 @@ class NoteEditorActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+<br/>
+
 ##### Paso 2.14 — Implementar NoteDetailActivity
 
 22. Crear `NoteDetailActivity.kt`:
@@ -1083,6 +1077,9 @@ class NoteDetailActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+<br/>
+
 ##### Paso 2.15 — Registrar las Activities en AndroidManifest.xml
 
 23. Abrir `app/src/main/AndroidManifest.xml` y verificar/agregar las Activities nuevas dentro de la etiqueta `<application>`:
@@ -1125,9 +1122,12 @@ class NoteDetailActivity : AppCompatActivity() {
 </manifest>
 ```
 
+<br/>
+<br/>
+
 ##### Paso 2.16 — Compilar y probar la navegación
 
-24. Hacer clic en **Build > Make Project** (Ctrl+F9 / Cmd+F9). Corregir cualquier error de compilación.
+24. Hacer clic en **Build** (Ctrl+F9 / Cmd+F9). Corregir cualquier error de compilación.
 
 25. Ejecutar la app en el **AVD API 36**. Verificar:
     - La pantalla principal muestra el mensaje "No hay notas. ¡Crea la primera!".
@@ -1140,8 +1140,11 @@ class NoteDetailActivity : AppCompatActivity() {
 26. Realizar commit:
 
 ```bash
+git status
 git add -A
+git status
 git commit -m "Fase 2: Pantallas, navegación y adaptador completados"
+git status
 ```
 
 #### Resultado esperado
@@ -1155,7 +1158,8 @@ La aplicación compila sin errores, las tres pantallas están funcionales y la n
 - Eliminar una nota → la lista se actualiza sin la nota eliminada.
 - Presionar el botón "Atrás" del sistema desde el editor → regresa a la lista sin guardar.
 
----
+<br/>
+<br/>
 
 ### FASE 3 — Integración de multimedia (30 minutos)
 
@@ -1167,6 +1171,8 @@ Integrar la selección de imágenes desde la galería del dispositivo usando `Ac
 
 > **Nota:** La funcionalidad de galería ya fue integrada en `NoteEditorActivity` durante la Fase 2 (el `galleryLauncher` y `copyImageToInternalStorage`). En esta fase se verifica su funcionamiento y se agrega opcionalmente la reproducción de un sonido de confirmación.
 
+<br/>
+
 1. **Verificar la funcionalidad de galería:**
    - Ejecutar la app en el AVD API 36.
    - Crear una nueva nota.
@@ -1174,11 +1180,15 @@ Integrar la selección de imágenes desde la galería del dispositivo usando `Ac
    - Seleccionar una imagen → debe mostrarse en el `ImageView` del editor.
    - Guardar la nota → abrir el detalle → la imagen debe mostrarse correctamente.
 
+<br/>
+
 2. **Agregar un sonido de confirmación al guardar (funcionalidad opcional).** Primero, obtener un archivo de audio corto en formato `.mp3` o `.ogg` (un sonido de "ding" o confirmación). Colocarlo en `app/src/main/res/raw/`. Si no se tiene uno disponible, se puede crear un archivo vacío para la estructura y saltar este paso.
 
    Crear el directorio `raw` si no existe: clic derecho en `res` > **New > Android Resource Directory** > Resource type: `raw`.
 
    Copiar el archivo de audio (ejemplo: `confirmation.mp3`) dentro de `res/raw/`.
+
+<br/>
 
 3. **Modificar `NoteEditorActivity.kt`** para agregar la reproducción del sonido. Agregar el import y la propiedad del MediaPlayer:
 
@@ -1191,6 +1201,9 @@ Agregar como propiedad de la clase:
 ```kotlin
 private var mediaPlayer: MediaPlayer? = null
 ```
+
+<br/>
+
 
 Modificar el método `saveNote()` para reproducir el sonido justo antes del `finish()`:
 
@@ -1240,6 +1253,8 @@ private fun saveNote() {
 }
 ```
 
+<br/>
+
 4. **Gestionar el ciclo de vida del MediaPlayer.** Agregar `onDestroy` en `NoteEditorActivity`:
 
 ```kotlin
@@ -1250,27 +1265,39 @@ override fun onDestroy() {
 }
 ```
 
+<br/>
+
 5. **Realizar commit:**
 
 ```bash
+git status
 git add -A
+git status
 git commit -m "Fase 3: Integración multimedia - galería y sonido de confirmación"
+git status
 ```
+
+<br/>
 
 #### Resultado esperado
 
 - Las imágenes seleccionadas desde la galería se muestran tanto en el editor como en el detalle de la nota.
 - Las imágenes se almacenan en el almacenamiento interno de la app (no se pierden si la URI original cambia).
 - El sonido de confirmación se reproduce al guardar (si el archivo de audio está presente).
-- No hay fugas de memoria del MediaPlayer.
+- No hay fugas de memoria del MediaPlayer en el Logcat.
+
+<br/>
 
 #### Verificación
 
 - Crear una nota con imagen → cerrar el detalle → volver a abrir el detalle → la imagen sigue visible.
 - Rotar la pantalla en el editor con imagen seleccionada → la imagen se mantiene (gracias a `onSaveInstanceState`).
 - Si se agregó el sonido: guardar una nota → se escucha el sonido de confirmación.
+- Verifica la llamanda a release() en onStop() en el Logcat
 
----
+
+<br/>
+<br/>
 
 ### FASE 4 — Persistencia simple con SharedPreferences (30 minutos)
 
@@ -1278,9 +1305,35 @@ git commit -m "Fase 3: Integración multimedia - galería y sonido de confirmaci
 
 Reemplazar el almacenamiento temporal en memoria por persistencia real usando SharedPreferences con serialización JSON (Gson), para que las notas sobrevivan al cierre de la aplicación.
 
+<br/>
+
 #### Instrucciones
 
 1. **Verificar que Gson está en las dependencias.** Abrir `app/build.gradle.kts` y confirmar que la línea `implementation(libs.gson)` está presente (se agregó en la Fase 2). La versión `2.11.0` ya está definida en `libs.versions.toml`.
+
+Para que la instrucción sea precisa, los archivos deben contener lo siguiente:
+
+En **`gradle/libs.versions.toml`**:
+
+```toml
+[versions]
+gson = "2.11.0"
+
+[libraries]
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+```
+
+En **`app/build.gradle.kts`**, dentro de `dependencies`:
+
+```kotlin
+dependencies {
+    implementation(libs.gson)
+}
+```
+
+Si ya existen las secciones `[versions]`, `[libraries]` o `dependencies`, agrega únicamente la línea correspondiente dentro de cada una; no dupliques las secciones. Después, pulsa **Sync Now** en Android Studio.
+
+<br/>
 
 2. **Reemplazar completamente el contenido de `NoteStorage.kt`** con la implementación persistente:
 
@@ -1339,9 +1392,15 @@ class NoteStorage(context: Context) {
 }
 ```
 
+<br/>
+
 3. **Eliminar el companion object temporal** que contenía `notesInMemory`. El nuevo `NoteStorage` ya no lo necesita.
 
-4. **Compilar el proyecto** (Build > Make Project). No deben existir errores ya que la interfaz pública de `NoteStorage` no cambió.
+<br/>
+
+4. **Limpia y compilar el proyecto** (Build). No deben existir errores ya que la interfaz pública de `NoteStorage` no cambió.
+
+<br/>
 
 5. **Probar la persistencia:**
    - Ejecutar la app en el AVD API 36.
@@ -1352,38 +1411,62 @@ class NoteStorage(context: Context) {
    - **Las 2 notas deben seguir presentes.**
    - Abrir el detalle de la nota con imagen → la imagen debe mostrarse correctamente.
 
+<br/>
+
 6. **Probar la eliminación persistente:**
    - Eliminar una nota desde el detalle.
    - Cerrar y reabrir la app.
    - Solo debe quedar la nota no eliminada.
 
+<br/>
+
 7. **Realizar commit:**
 
 ```bash
+git status
 git add -A
+git status
 git commit -m "Fase 4: Persistencia con SharedPreferences y Gson implementada"
+git status
+git branch
+git branch -a
 ```
+
+<br/>
 
 #### Resultado esperado
 
 Las notas se almacenan en SharedPreferences como JSON serializado. Al cerrar y reabrir la app, todas las notas persisten. Las imágenes almacenadas en el almacenamiento interno también persisten entre sesiones.
 
+<br/>
+
 #### Verificación
 
-```bash
+```cmd
 # Verificar que SharedPreferences se creó en el emulador (desde terminal del sistema)
 adb shell run-as com.cursokotlin.android.notakmp cat shared_prefs/notakmp_prefs.xml
 ```
 
-La salida debe mostrar un XML con una entrada `notes_list` que contiene el JSON de las notas.
+Power Shell:
 
----
+```cmd
+# Verificar que SharedPreferences se creó en el emulador (desde terminal del sistema)
+adb shell run-as com.cursokotlin.android.notakmp cat shared_prefs/notakmp_prefs.xml
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+```
+
+
+La salida debe mostrar un XML con una entrada `notes_list` que contiene las notas.
+
+<br/>
+<br/>
 
 ### FASE 5 — Pruebas funcionales básicas (30 minutos)
 
 #### Objetivo
 
 Ejecutar una batería de pruebas funcionales manuales siguiendo una checklist estructurada en dos AVDs (API 36 y API 30), documentando defectos encontrados y corrigiendo los críticos.
+
 
 #### Instrucciones
 
@@ -1440,12 +1523,16 @@ Ejecutar una batería de pruebas funcionales manuales siguiendo una checklist es
 - Tester:
 ```
 
-2. **Ejecutar las pruebas en AVD API 36:**
+<br/>
+
+2. **Ejecutar las pruebas en AVD API 36 o en el dispositivo físico:**
    - Iniciar el AVD API 36 desde el Device Manager.
    - Ejecutar la app (Run > Run 'app').
    - Recorrer cada prueba de la checklist T01 a T20 de forma secuencial.
    - Marcar cada prueba como pasada o fallida en `TESTING.md`.
    - Documentar cualquier defecto encontrado en la tabla de defectos.
+
+<br/>
 
 3. **Verificar la rotación de pantalla (T16-T18):**
    - En el editor, escribir un título y un cuerpo de texto.
@@ -1455,35 +1542,41 @@ Ejecutar una batería de pruebas funcionales manuales siguiendo una checklist es
 
    > **Problema esperado:** Los `EditText` dentro de `TextInputEditText` conservan su texto automáticamente si tienen un `android:id` definido. La imagen se conserva gracias al `onSaveInstanceState` implementado en la Fase 2. Si algún dato se pierde, agregar la restauración correspondiente.
 
+<br/>
+
 4. **Ejecutar las pruebas en AVD API 30:**
    - Cambiar al AVD API 30 en el Device Manager.
    - Ejecutar la app.
    - Repetir las pruebas T01, T07, T10, T13 y T15 como mínimo (pruebas representativas).
    - Verificar que no hay crashes ni comportamientos diferentes.
 
+<br/>
+
 5. **Corregir defectos críticos** (crashes, pérdida de datos, navegación rota). Los defectos cosméticos o menores se documentan pero no es obligatorio corregirlos.
+
+<br/>
 
 6. **Realizar commit:**
 
 ```bash
 git add -A
-git commit -m "Fase 5: Pruebas funcionales completadas en AVD API 36 y API 30"
+git commit -m "Fase 5: Pruebas funcionales completadas en AVD API 36, API 30 y dispositivo físico"
+git status
 ```
+
+<br/>
+<br/>
 
 #### Resultado esperado
 
 - `TESTING.md` completo con todas las pruebas marcadas.
 - Todas las pruebas T01-T20 pasan en AVD API 36.
 - Las pruebas representativas pasan en AVD API 30.
+- Las pruebas representativas también pasan en el dispositivo físico.
 - Defectos críticos corregidos; defectos menores documentados.
 
-#### Verificación
-
-Revisar `TESTING.md` y confirmar que:
-- Ninguna prueba tiene estado "fallida" sin corrección aplicada.
-- La tabla de defectos documenta al menos la revisión (puede estar vacía si todo pasó).
-
----
+<br/>
+<br/>
 
 ### FASE 6 — Presentación final y entrega (36 minutos)
 
@@ -1500,15 +1593,11 @@ Generar el APK de depuración, preparar la documentación final del proyecto y r
    - El APK se genera en: `app/build/outputs/apk/debug/app-debug.apk`.
    - Copiar el APK a la raíz del proyecto:
 
-   **Windows:**
    ```powershell
    copy app\build\outputs\apk\debug\app-debug.apk .\NotaKMP-debug.apk
    ```
 
-   **macOS / Linux:**
-   ```bash
-   cp app/build/outputs/apk/debug/app-debug.apk ./NotaKMP-debug.apk
-   ```
+  <br/>
 
 2. **Crear el archivo `README.md`** en la raíz del proyecto:
 
@@ -1563,6 +1652,8 @@ com.cursokotlin.android.notakmp/
 [Tu nombre] — Curso Básico de Desarrollo Android
 ```
 
+<br/>
+
 3. **Crear el archivo `.gitignore`** si no existe, con el contenido apropiado para Android:
 
 ```
@@ -1580,14 +1671,22 @@ com.cursokotlin.android.notakmp/
 *.aab
 ```
 
+<br/>
+
 > **Nota:** Aunque `.gitignore` excluye APKs por defecto, para la entrega del curso se puede incluir `NotaKMP-debug.apk` explícitamente con `git add -f NotaKMP-debug.apk` si el instructor lo requiere.
+
+<br/>
 
 4. **Realizar el commit final:**
 
 ```bash
+git status
 git add -A
 git commit -m "Fase 6: README, APK de depuración y documentación final"
+git status
 ```
+
+<br/>
 
 5. **Verificar la estructura final del repositorio:**
 
@@ -1595,16 +1694,20 @@ git commit -m "Fase 6: README, APK de depuración y documentación final"
 git log --oneline
 ```
 
+<br/>
+
 Debe mostrar al menos 5 commits (uno por fase):
 
 ```
-xxxxxxx Fase 6: README, APK de depuración y documentación final
-xxxxxxx Fase 5: Pruebas funcionales completadas en AVD API 36 y API 30
-xxxxxxx Fase 4: Persistencia con SharedPreferences y Gson implementada
-xxxxxxx Fase 3: Integración multimedia - galería y sonido de confirmación
-xxxxxxx Fase 2: Pantallas, navegación y adaptador completados
-xxxxxxx Fase 1: Documento de planeación del proyecto NotaKMP
+Fase 6: README, APK de depuración y documentación final
+Fase 5: Pruebas funcionales completadas en AVD API 36 y API 30
+Fase 4: Persistencia con SharedPreferences y Gson implementada
+Fase 3: Integración multimedia - galería y sonido de confirmación
+Fase 2: Pantallas, navegación y adaptador completados
+Fase 1: Documento de planeación del proyecto NotaKMP
 ```
+
+<br/>
 
 6. **Preparar la presentación (5-7 minutos por estudiante/equipo).** La presentación debe cubrir:
 
@@ -1613,7 +1716,11 @@ xxxxxxx Fase 1: Documento de planeación del proyecto NotaKMP
    - **Retos y soluciones** (1 min): Describir al menos un problema encontrado durante el desarrollo y cómo se resolvió.
    - **Reflexión** (1 min): Qué se mejoraría con más tiempo (ej: migrar a Room, agregar búsqueda, mejorar UI).
 
+<br/>
+
 7. **Realizar la presentación** ante el instructor y compañeros. Recibir retroalimentación constructiva.
+
+<br/>
 
 #### Resultado esperado
 
@@ -1621,6 +1728,8 @@ xxxxxxx Fase 1: Documento de planeación del proyecto NotaKMP
 - `README.md` con instrucciones de instalación y uso.
 - Repositorio Git con historial limpio de 5-6 commits.
 - Presentación completada con demostración funcional.
+
+<br/>
 
 #### Verificación
 
@@ -1662,9 +1771,10 @@ NotaKMP/
                 └── confirmation.mp3 (opcional)
 ```
 
----
+<br/>
+<br/>
 
-## 7. Validación y pruebas finales
+## Validación y pruebas finales
 
 Ejecutar la siguiente secuencia de validación completa como verificación final del proyecto:
 
@@ -1680,15 +1790,20 @@ Ejecutar la siguiente secuencia de validación completa como verificación final
 | 8 | Historial Git | `git log --oneline` | Mínimo 5 commits con mensajes descriptivos |
 | 9 | APK generado | Verificar existencia de `NotaKMP-debug.apk` | Archivo presente en la raíz del proyecto |
 
----
+<br/>
+<br/>
 
-## 8. Solución de problemas
+## Solución de problemas
 
 ### Problema 1: La imagen seleccionada desde la galería no se muestra en el detalle de la nota
 
 **Síntomas:** Al crear una nota con imagen adjunta, la imagen se ve correctamente en el editor (`NoteEditorActivity`), pero al abrir el detalle (`NoteDetailActivity`) la imagen no aparece. No hay crash, simplemente el `ImageView` permanece invisible.
 
+<br/>
+
 **Causa:** El método `copyImageToInternalStorage()` puede estar fallando silenciosamente, devolviendo `null`. Esto ocurre si el `ContentResolver` no puede abrir el `InputStream` de la URI proporcionada por el selector de galería, típicamente porque la URI temporal ya expiró o porque el emulador no tiene imágenes disponibles en la galería. Otra causa común es que el nombre del archivo guardado no coincide con el que se intenta leer en el detalle.
+
+<br/>
 
 **Solución:**
 1. Agregar logs de depuración en `copyImageToInternalStorage()`:
@@ -1713,24 +1828,43 @@ Ejecutar la siguiente secuencia de validación completa como verificación final
        }
    }
    ```
+<br/>
+
 2. Verificar en Logcat que el archivo se guarda correctamente.
+
+<br/>
+
 3. Si el emulador no tiene imágenes, agregar algunas: arrastrar un archivo `.jpg` al emulador o usar `adb push imagen.jpg /sdcard/Pictures/`.
+
+<br/>
+
 4. Verificar en `NoteDetailActivity` que se usa `openFileInput(fileName)` (almacenamiento interno) y no una ruta de archivo diferente.
 
----
+<br/>
+<br/>
 
 ### Problema 2: La app se cierra con crash al reabrir después de guardar notas (JsonSyntaxException)
 
 **Síntomas:** La app funciona correctamente mientras está abierta, pero al cerrarla completamente y reabrirla, se produce un crash inmediato en `MainActivity.onCreate()`. En Logcat aparece: `com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected BEGIN_ARRAY but was STRING`.
 
+<br/>
+
 **Causa:** La serialización JSON en SharedPreferences se corrompió. Esto puede ocurrir si se modificó manualmente el modelo `Note` (agregando o eliminando propiedades) después de haber guardado notas con la estructura anterior. Gson no puede deserializar el JSON antiguo con la nueva estructura de la clase.
+
+<br/>
 
 **Solución:**
 1. Limpiar los datos de la app en el emulador: **Settings > Apps > NotaKMP > Storage > Clear Data**. Alternativamente, desde la terminal:
    ```bash
    adb shell pm clear com.cursokotlin.android.notakmp
    ```
+
+<br/>
+
 2. Si el problema persiste después de limpiar datos, verificar que el método `getAllNotes()` tiene el bloque `try-catch` que devuelve `emptyList()` en caso de error de deserialización (ya incluido en la implementación de la Fase 4).
+
+<br/>
+
 3. Para prevenir este problema en el futuro, se puede agregar una versión del esquema en SharedPreferences:
    ```kotlin
    companion object {
@@ -1742,19 +1876,26 @@ Ejecutar la siguiente secuencia de validación completa como verificación final
    ```
    Y al inicializar, verificar si la versión cambió para limpiar datos incompatibles.
 
----
+<br/>
+<br/>
 
-## 9. Limpieza
+## Limpieza
 
 Al finalizar el laboratorio y la entrega del proyecto:
 
 1. **Cerrar los AVDs** que no se estén utilizando para liberar recursos del sistema:
    - En Android Studio: **Device Manager > ▼ (menú del AVD) > Stop**.
 
+<br/>
+
 2. **Cerrar el proyecto en Android Studio** si no se continuará trabajando:
    - **File > Close Project**.
 
+<br/>
+
 3. **No eliminar el directorio del proyecto.** El código fuente en `C:\AndroidCursoBasico\Lab7\NotaKMP\` (o `~/AndroidCursoBasico/Lab7/NotaKMP/`) debe conservarse como referencia del curso y como parte de la entrega final.
+
+<br/>
 
 4. **Verificar que el repositorio Git está limpio:**
 
@@ -1765,33 +1906,43 @@ git status
 
 Debe mostrar `nothing to commit, working tree clean`. Si hay archivos sin commit, agregarlos y hacer un commit final.
 
----
+<br/>
+<br/>
 
-## 10. Resumen
+## Resumen
 
-### Lo que se logró en este laboratorio
+### Puntos de aprendizaje
 
-En este proyecto integrador se completaron las seis fases del desarrollo de una aplicación Android real:
+Al concluir el Laboratorio 7.1, habrás integrado los temas del curso en **NotaKMP**, una aplicación de notas multimedia con persistencia local:
 
-| Fase | Duración | Entregable |
-|------|----------|------------|
-| 1. Planeación | 30 min | `PLANNING.md` con alcance, pantallas y tecnologías |
-| 2. Pantallas y navegación | 60 min | 3 Activities con layouts XML, RecyclerView, Intents y ViewBinding |
-| 3. Multimedia | 30 min | Selección de imágenes desde galería con `ActivityResultLauncher`, almacenamiento interno, MediaPlayer opcional |
-| 4. Persistencia | 30 min | SharedPreferences + Gson para serialización de notas |
-| 5. Pruebas | 30 min | `TESTING.md` con 20 pruebas ejecutadas en AVD API 36 y API 30 |
-| 6. Presentación | 36 min | APK generado, `README.md`, presentación en vivo |
+- **Planeación:** definiste el alcance, las pantallas, el flujo de navegación y los criterios de aceptación antes de programar.
+- **Interfaz y navegación:** construiste tres `Activities` con layouts XML, mostraste las notas en un `RecyclerView` y conectaste las pantallas mediante `Intents` explícitos.
+- **Multimedia:** seleccionaste una imagen con la API de resultados de actividad y guardaste una copia en el almacenamiento interno para poder mostrarla después. :chatgpt-content-reference{index="0"}
+- **Persistencia:** serializaste las notas con Gson y las recuperaste desde `SharedPreferences` al volver a abrir la aplicación.
+- **Ciclo de vida:** conservaste los datos del editor durante la rotación y gestionaste los recursos multimedia según el estado de la `Activity`. :chatgpt-content-reference{index="1"}
+- **Verificación y entrega:** probaste los flujos principales en API 36 y API 30, registraste resultados y defectos, generaste un APK y documentaste el proyecto en Git.
 
-### Conceptos clave aplicados
+<br/>
 
-- **Planeación con MVP:** Definir el alcance mínimo viable antes de codificar evita la parálisis por exceso de funcionalidades.
-- **Arquitectura por paquetes:** Separar `model`, `adapter` y `storage` mantiene el código organizado y mantenible.
-- **ViewBinding:** Elimina `findViewById` y proporciona seguridad de tipos en tiempo de compilación.
-- **ActivityResultLauncher:** Reemplaza el obsoleto `startActivityForResult` con un API moderna y type-safe.
-- **Persistencia con SharedPreferences + Gson:** Solución pragmática para datos estructurados simples sin la complejidad de Room.
-- **Ciclo de vida:** `onSaveInstanceState` preserva datos del formulario durante rotación; `onDestroy` libera recursos multimedia.
-- **Pruebas en múltiples APIs:** Validar en `minSdk` (API 30) garantiza compatibilidad real con el rango de dispositivos declarado.
+### Referencias adicionales
 
-### Recursos adicionales
+▸ [Resultados de una actividad — Android Developers](https://developer.android.com/training/basics/intents/result): explica cómo registrar un `ActivityResultLauncher` y recibir la imagen elegida por el usuario.
 
-- [Guía oficial: Fundamentos de la arquitectura de apps
+▸ [Archivos específicos de la aplicación — Android Developers](https://developer.android.com/training/data-storage/app-specific): describe dónde y cómo guardar las copias de las imágenes que utiliza NotaKMP.
+
+▸ [SharedPreferences — Android Developers](https://developer.android.com/training/data-storage/shared-preferences): muestra cómo escribir y recuperar datos mediante pares de clave y valor. 
+
+▸ [Ciclo de vida de una Activity — Android Developers](https://developer.android.com/guide/components/activities/activity-lifecycle): sirve para repasar la recreación de pantallas y la gestión de recursos durante los cambios de estado. 
+
+<br/>
+
+### Video
+
+▸ [Sistema de Views de Android — Android Developers](https://developer.android.com/courses/pathways/android-basics-compose-unit-8-pathway-1?hl=es): lección con video sobre Views, View Binding y su relación con las interfaces de Android.
+
+
+<br/>
+
+### Lecturas para ampliar
+
+▸ [Casos de uso del almacenamiento — Android Developers](https://developer.android.com/training/data-storage/use-cases): ayuda a decidir dónde guardar datos e imágenes según cómo se utilizarán.

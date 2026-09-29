@@ -1,27 +1,23 @@
----LAB_START---
-LAB_ID: 04-00-01
----MARKDOWN---
-# Laboratorio 4: Construcción de una interfaz interactiva con recursos Android
 
-## Metadatos
+# Laboratorio 4.1 Construcción de una interfaz interactiva con recursos Android
 
-| Campo | Valor |
-|---|---|
-| **Duración** | 288 minutos (6 bloques × ~48 min) |
-| **Complejidad** | Alta |
-| **Nivel Bloom** | Crear |
+<br/>
 
 ## Descripción General
 
 En este laboratorio transformarás la aplicación **TaskManager** del Laboratorio 3 en una aplicación con interfaz de usuario profesional e interactiva llamada **TaskManagerUI**. A lo largo de 6 bloques progresivos, implementarás layouts complejos con `ConstraintLayout`, un `RecyclerView` completo con `Adapter`, `ViewHolder` y `DiffUtil`, formularios con validación en tiempo real, gestión organizada de recursos Android, View Binding y navegación integrada entre pantallas. Al finalizar, tendrás una aplicación funcional de gestión de tareas con una interfaz pulida y código bien estructurado.
 
+<br/>
+
 ## Objetivos de Aprendizaje
 
-- [ ] Diseñar layouts complejos usando `ConstraintLayout` como contenedor principal, combinándolo con `LinearLayout` y `FrameLayout` para organizar la interfaz de usuario
-- [ ] Implementar y personalizar un `RecyclerView` completo con `Adapter`, `ViewHolder`, `LayoutManager` y `DiffUtil.ItemCallback`
-- [ ] Manejar eventos de usuario mediante clics en botones, `TextWatcher` para validación en tiempo real y selecciones en `Spinner`
-- [ ] Organizar y gestionar recursos Android: `strings.xml`, `colors.xml`, `dimens.xml`, `themes.xml` y recursos `drawable`
-- [ ] Aplicar View Binding y buenas prácticas de diseño, integrando navegación entre pantallas
+- Diseñar layouts complejos usando `ConstraintLayout` como contenedor principal, combinándolo con `LinearLayout` y `FrameLayout` para organizar la interfaz de usuario
+- Implementar y personalizar un `RecyclerView` completo con `Adapter`, `ViewHolder`, `LayoutManager` y `DiffUtil.ItemCallback`
+- Manejar eventos de usuario mediante clics en botones, `TextWatcher` para validación en tiempo real y selecciones en `Spinner`
+- Organizar y gestionar recursos Android: `strings.xml`, `colors.xml`, `dimens.xml`, `themes.xml` y recursos `drawable`
+- Aplicar View Binding y buenas prácticas de diseño, integrando navegación entre pantallas
+
+<br/>
 
 ## Prerrequisitos
 
@@ -34,40 +30,11 @@ En este laboratorio transformarás la aplicación **TaskManager** del Laboratori
 | Modelo de datos `Tarea` y repositorio en memoria | Laboratorio 2 |
 | Fundamentos de Kotlin: clases de datos, lambdas, colecciones | Laboratorio 2 |
 
-### Acceso y Herramientas
+<br/><br/>
 
-| Herramienta | Versión |
-|---|---|
-| Android Studio | Quail 3 (2026.1.3 Patch 1) |
-| Kotlin | 2.2.10 |
-| Android Gradle Plugin | 9.3.2 |
-| Gradle | 9.3.2 |
-| JDK | 11 |
-| AVDs configurados | API 30, 35, 36, 37 |
+## Instrucciones
 
-## Entorno del Laboratorio
-
-### Estructura del Proyecto
-
-```
-C:\AndroidCursoBasico\Lab4\TaskManagerUI\    (Windows)
-~/AndroidCursoBasico/Lab4/TaskManagerUI/     (macOS/Linux)
-```
-
-### Configuración SDK
-
-| Parámetro | Valor |
-|---|---|
-| `compileSdk` | 37 |
-| `minSdk` | 30 |
-| `targetSdk` | 37 |
-| `jvmTarget` | `"11"` |
-| `sourceCompatibility` | `JavaVersion.VERSION_11` |
-| `targetCompatibility` | `JavaVersion.VERSION_11` |
-
----
-
-## Paso 1 — Crear el Proyecto TaskManagerUI y Configurar Gradle
+### Paso 1 — Crear el Proyecto TaskManagerUI y Configurar Gradle
 
 **Objetivo:** Crear el proyecto base con la plantilla correcta y configurar todas las dependencias necesarias, incluyendo RecyclerView.
 
@@ -209,12 +176,12 @@ BUILD SUCCESSFUL
 
 ### Verificación
 
-- [ ] El proyecto compila sin errores
-- [ ] `viewBinding = true` está habilitado en `buildFeatures`
-- [ ] La dependencia `androidx-recyclerview` aparece en `libs.versions.toml`
-- [ ] `compileSdk = 37`, `minSdk = 30`, `targetSdk = 37` están configurados
+- El proyecto compila sin errores
+- `viewBinding = true` está habilitado en `buildFeatures`
+- La dependencia `androidx-recyclerview` aparece en `libs.versions.toml`
+- `compileSdk = 37`, `minSdk = 30`, `targetSdk = 37` están configurados
 
----
+<br/><br/>
 
 ## Paso 2 — Crear el Modelo de Datos y el Repositorio
 
@@ -297,6 +264,8 @@ object TareaRepository {
 }
 ```
 
+<br/>
+
 ### Resultado Esperado
 
 La estructura del paquete debe verse así:
@@ -310,13 +279,19 @@ com.cursokotlin.android.taskmanagerui/
 └── MainActivity.kt
 ```
 
+> **Sugerencia**: Usa la perspectiva Android para visualizar facilmente la estructura de carpetas y tipos de archivos.
+
+<br/>
+
 ### Verificación
 
-- [ ] El proyecto compila sin errores después de agregar ambos archivos
-- [ ] `TareaRepository` es un `object` (singleton) con datos de ejemplo inicializados
-- [ ] `EstadoTarea` tiene tres valores: `PENDIENTE`, `EN_PROGRESO`, `COMPLETADA`
+- El proyecto compila sin errores después de agregar ambos archivos
+- `EstadoTarea` es una **enumeración** que limita el estado a tres valores posibles: `PENDIENTE`, `EN_PROGRESO` y `COMPLETADA`.
+- `Tarea` es una **clase de datos** que representa una tarea mediante su identificador, título, descripción y estado. Al crearla, su estado inicial es `PENDIENTE`, salvo que se indique otro.
+- `TareaRepository` es un `object` (singleton) con datos de ejemplo inicializados
 
----
+
+<br/><br/>
 
 ## Paso 3 — Bloque 1: Diseñar el Layout Principal con ConstraintLayout
 
@@ -475,31 +450,42 @@ com.cursokotlin.android.taskmanagerui/
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-3. Observa la estructura del layout en el panel **Design** de Android Studio. Verifica que:
-   - El `TextView` del título está anclado al borde superior del padre.
-   - El `LinearLayout` de filtros está debajo del título (`constraintTop_toBottomOf="@id/tvTituloPantalla"`).
-   - El `FrameLayout` ocupa todo el espacio restante entre los filtros y el borde inferior.
-   - El `FloatingActionButton` está anclado a la esquina inferior derecha.
+<br/>
 
-4. Cambia al modo **Blueprint** en el editor de layouts para ver las restricciones representadas como flechas. Verifica que todas las vistas tienen restricciones completas (horizontal y vertical).
+3. Identifica las restricciones en el código XML. En `activity_main.xml`, cambia a la vista **Code** y usa `Ctrl+F` para buscar `app:layout_constraint`. Recorre las coincidencias y verifica lo siguiente:
+
+| Vista | Atributos que debes localizar | ¿Qué indican? |
+|---|---|---|
+| `tvTituloPantalla` | `Top_toTopOf`, `Start_toStartOf`, `End_toEndOf` | Se ubica arriba y se ajusta horizontalmente al contenedor. |
+| `llFiltros` | `Top_toBottomOf`, `Start_toStartOf`, `End_toEndOf` | Se coloca debajo del título y se ajusta al ancho del contenedor. |
+| `flContenido` | `Top_toBottomOf`, `Bottom_toBottomOf`, `Start_toStartOf`, `End_toEndOf` | Ocupa el espacio entre los filtros y la parte inferior. |
+| `fabNuevaTarea` | `Bottom_toBottomOf`, `End_toEndOf` | Se sitúa en la esquina inferior derecha. |
+
+<br/>
+
+4. Comprueba el resultado visual. Abre **Design** o **Blueprint** y selecciona cada uno de esos cuatro elementos. Observa las conexiones con `parent` o con otra vista. Comprueba que cada hijo directo tenga al menos una restricción horizontal y una vertical; después, verifica que el diseño no muestre advertencias por restricciones faltantes. 
+
+<br/>
 
 ### Resultado Esperado
 
-En el panel de vista previa, deberías ver:
+- En el panel de vista previa, deberías ver:
 - Un título "Mis Tareas" en la parte superior
 - Una fila de 4 botones de filtro distribuidos equitativamente
 - Un área central vacía (donde irá el RecyclerView)
 - Un botón flotante circular en la esquina inferior derecha
 
+<br/>
+
 ### Verificación
 
-- [ ] El layout raíz es `ConstraintLayout`
-- [ ] El `LinearLayout` usa `orientation="horizontal"` con `layout_weight="1"` en cada botón
-- [ ] El `FrameLayout` contiene el `RecyclerView` y el `TextView` de "sin tareas" superpuestos
-- [ ] Todas las vistas tienen restricciones horizontales y verticales completas
-- [ ] No aparecen advertencias de "missing constraints" en el editor
+- El layout raíz es `ConstraintLayout`
+- El `LinearLayout` usa `orientation="horizontal"` con `layout_weight="1"` en cada botón
+- El `FrameLayout` contiene el `RecyclerView` y el `TextView` de "sin tareas" superpuestos
+- Todas las vistas tienen restricciones horizontales y verticales completas
+- No aparecen advertencias de "missing constraints" en el editor
 
----
+<br/><br/>
 
 ## Paso 4 — Bloque 2: Implementar RecyclerView con Adapter, ViewHolder y DiffUtil
 
@@ -583,6 +569,13 @@ En el panel de vista previa, deberías ver:
 
 </com.google.android.material.card.MaterialCardView>
 ```
+
+<br/>
+
+> **Nota:** `MaterialCardView` es un contenedor visual con forma de tarjeta de la biblioteca `Material Components`. Sirve para agrupar contenido relacionado y presentarlo como una unidad; puedes configurar su color, esquinas, borde y elevación. GitHub 
+En el laboratorio 4.1, cada elemento del RecyclerView usa una tarjeta para representar una Tarea. Dentro de ella aparecen el título, la descripción y el estado. MaterialCardView da forma a la tarjeta; el Adapter coloca en sus vistas los datos de cada tarea.
+
+<br/>
 
 3. Crea el paquete `adapter` dentro del paquete principal.
 
@@ -820,7 +813,11 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
+<br/>
+
 > **Nota:** El proyecto aún no compilará porque faltan `DetallesTareaActivity` y `CrearTareaActivity`. Las crearemos en los pasos siguientes.
+
+<br/>
 
 ### Resultado Esperado
 
@@ -839,15 +836,30 @@ com.cursokotlin.android.taskmanagerui/
 └── MainActivity.kt
 ```
 
+<br/>
+
 ### Verificación
 
-- [ ] `TareaAdapter` extiende `ListAdapter` con `TareaDiffCallback`
-- [ ] `TareaViewHolder` usa View Binding (`ItemTareaBinding`)
-- [ ] `DiffUtil.ItemCallback` compara por `id` en `areItemsTheSame` y por igualdad completa en `areContentsTheSame`
-- [ ] `TareaViewModel` expone `LiveData<List<Tarea>>` y soporta filtrado por estado
-- [ ] `MainActivity` configura `LinearLayoutManager` y observa el `LiveData`
+- `TareaAdapter` extiende `ListAdapter` con `TareaDiffCallback`
+- `TareaViewHolder` usa View Binding (`ItemTareaBinding`)
+- `DiffUtil.ItemCallback` compara por `id` en `areItemsTheSame` y por igualdad completa en `areContentsTheSame`
+- `TareaViewModel` expone `LiveData<List<Tarea>>` y soporta filtrado por estado
+- `MainActivity` configura `LinearLayoutManager` y observa el `LiveData`
 
----
+<br/>
+
+> **Nota**: Estas clases trabajan juntas para mostrar y actualizar la lista de tareas:
+
+- **`TareaAdapter`** recibe listas de tareas y vincula cada tarea con una fila del `RecyclerView`. Al extender `ListAdapter`, utiliza `TareaDiffCallback` para identificar los cambios entre una lista y la siguiente.
+- **`TareaViewHolder`** representa una fila. Usa `ItemTareaBinding` para acceder directamente a sus vistas y colocar el título, la descripción y el estado.
+- **`TareaDiffCallback`** implementa `DiffUtil.ItemCallback<Tarea>`: `areItemsTheSame()` comprueba si dos tareas tienen el mismo `id`; `areContentsTheSame()` comprueba si sus datos son iguales.
+- **`TareaViewModel`** prepara la lista que necesita la pantalla, la expone como `LiveData<List<Tarea>>` y aplica el filtro por estado.
+- **`MainActivity`** configura `LinearLayoutManager` para mostrar las filas verticalmente. También observa el `LiveData` y entrega cada nueva lista al adaptador mediante `submitList()`.
+
+**En conjunto:** el `ViewModel` proporciona las tareas, `MainActivity` las recibe y el adaptador las muestra en el `RecyclerView`.
+
+
+<br/><br/>
 
 ## Paso 5 — Bloque 3: Formulario de Creación con Widgets y Eventos
 
@@ -1076,26 +1088,32 @@ class CrearTareaActivity : AppCompatActivity() {
     android:parentActivityName=".MainActivity" />
 ```
 
+<br/>
+
+
 ### Resultado Esperado
 
-Al ejecutar la app y tocar el FAB, debería abrirse la pantalla de creación con:
-- Un título "Crear Tarea"
-- Un campo de texto para el título con hint
-- Un campo de texto multilínea para la descripción
-- Un Spinner con tres opciones de estado
-- Un botón "Guardar" inicialmente deshabilitado (gris)
+Al abrir `activity_crear_tarea.xml` en la vista **Design** de Android Studio, verifica que el diseño muestre:
 
-Al escribir texto en ambos campos, el botón "Guardar" se habilita automáticamente.
+- El título «Crear Tarea».
+- Un campo para el título y otro, de varias líneas, para la descripción.
+- Un `Spinner` para seleccionar el estado.
+- El botón «Guardar».
+
+**En este paso solo se construye la interfaz.** La apertura de esta pantalla desde el FAB, las opciones del `Spinner` y la habilitación automática del botón se implementarán y comprobarán en los pasos posteriores.
+
+<br/>
 
 ### Verificación
 
-- [ ] El `TextWatcher` habilita/deshabilita el botón según el contenido de ambos campos
-- [ ] El `Spinner` muestra las tres opciones de estado
-- [ ] El `TextInputLayout` muestra un mensaje de error cuando el título está vacío
-- [ ] Al guardar, la tarea se agrega al repositorio y la Activity se cierra con `finish()`
-- [ ] La flecha de retroceso en la barra de acción funciona correctamente
+- El `TextWatcher` habilita/deshabilita el botón según el contenido de ambos campos.
+- El `Spinner` muestra las tres opciones de estado.
+- El `TextInputLayout` muestra un mensaje de error cuando el título está vacío.
+- Al guardar, la tarea se agrega al repositorio y la Activity se cierra con `finish()`.
+- La flecha de retroceso en la barra de acción funciona correctamente.
+- El proyecto aún no se puede construir.
 
----
+<br/><br/>
 
 ## Paso 6 — Bloque 3 (continuación): Pantalla de Detalles de Tarea
 
@@ -1265,7 +1283,9 @@ class DetallesTareaActivity : AppCompatActivity() {
     android:parentActivityName=".MainActivity" />
 ```
 
-4. En este punto, compila el proyecto: **Build → Make Project** (Ctrl+F9 / Cmd+F9).
+4. En este punto, compila el proyecto: **Build** (Ctrl+F9 / Cmd+F9).
+
+<br/>
 
 ### Resultado Esperado
 
@@ -1277,19 +1297,29 @@ CrearTareaActivity
 DetallesTareaActivity
 ```
 
+<br/>
+
 ### Verificación
 
-- [ ] El proyecto compila sin errores
-- [ ] `DetallesTareaActivity` recibe el `TAREA_ID` vía Intent extra
-- [ ] Si el ID es inválido o la tarea no existe, la Activity se cierra con `finish()`
-- [ ] Los colores de fondo del estado cambian según `EstadoTarea`
-- [ ] La flecha de retroceso funciona correctamente
+- El proyecto compila sin errores
+- `DetallesTareaActivity` recibe el `TAREA_ID` vía Intent extra
+- Si el ID es inválido o la tarea no existe, la Activity se cierra con `finish()`
+- Los colores de fondo del estado cambian según `EstadoTarea`
+- La flecha de retroceso funciona correctamente
 
----
+<br/><br/>
 
 ## Paso 7 — Bloque 4: Organización de Recursos Android
 
 **Objetivo:** Definir una paleta de colores, dimensiones consistentes, personalizar el tema Material 3 y agregar iconos vectoriales.
+
+### Material 3
+
+**Material 3** es la versión actual del sistema de diseño **Material Design** de Google. Define pautas para colores, tipografía, formas, movimiento y componentes como botones, campos de texto y tarjetas. 
+
+En Android ofrece una forma de dar **apariencia y comportamiento coherentes** a las interfaces de sus aplicaciones. En este laboratorio, que usa vistas XML, el tema `Theme.Material3.Light.NoActionBar` y componentes como `MaterialCardView` aplican ese diseño mediante la biblioteca *Material Components for Android*. 
+
+<br/>
 
 ### Instrucciones
 
@@ -1332,6 +1362,8 @@ DetallesTareaActivity
 </resources>
 ```
 
+<br/>
+
 2. Crea el archivo `res/values/dimens.xml` (clic derecho en `res/values/` → **New → Values Resource File** → nombre: `dimens`):
 
 ```xml
@@ -1364,6 +1396,8 @@ DetallesTareaActivity
 </resources>
 ```
 
+<br/>
+
 3. Abre `res/values/themes.xml` y actualiza el tema para usar los colores personalizados:
 
 ```xml
@@ -1390,7 +1424,11 @@ DetallesTareaActivity
 </resources>
 ```
 
+<br/>
+
 > **Nota:** Si usas `Theme.Material3.Light.NoActionBar`, no tendrás ActionBar por defecto. Esto es intencional; el título ya está en el layout. Si prefieres conservar la ActionBar, usa `Theme.Material3.Light` en su lugar y ajusta `configurarNavegacionRetroceso()` en las Activities secundarias.
+
+<br/>
 
 4. Verifica que el `AndroidManifest.xml` usa el tema correcto. Busca `android:theme` en la etiqueta `<application>`:
 
@@ -1398,19 +1436,25 @@ DetallesTareaActivity
 android:theme="@style/Theme.TaskManagerUI"
 ```
 
+<br/>
+
 5. Agrega un ícono vectorial para el FAB. Ve a **File → New → Vector Asset**:
    - **Asset type:** Clip Art
    - **Clip Art:** busca "add" y selecciona el ícono de "+"
-   - **Name:** `ic_add`
+   - **Name:** `baseline_add_24`
    - **Size:** 24dp × 24dp
    - **Color:** `#FFFFFF`
    - Haz clic en **Next → Finish**
 
+<br/>
+
 6. Actualiza el FAB en `activity_main.xml` para usar el nuevo ícono:
 
 ```xml
-android:src="@drawable/ic_add"
+android:src="@drawable/baseline_add_24"
 ```
+
+<br/>
 
 7. Ahora actualiza el `TareaAdapter.kt` para usar los colores personalizados del recurso en lugar de los colores del sistema. Modifica el método `bind()` en `TareaViewHolder`:
 
@@ -1475,7 +1519,7 @@ when (tarea.estado) {
 }
 ```
 
-9. Actualiza los layouts XML para usar las dimensiones de `dimens.xml`. Por ejemplo, en `activity_main.xml`, cambia los valores hardcodeados:
+9. Actualiza los layouts XML para usar las dimensiones de `dimens.xml`. Por ejemplo, en `activity_main.xml`, cambia los valores hardcodeados. Aplica el siguiente cambio a `tvTitutloPantalla`
 
 ```xml
 <!-- Antes -->
@@ -1501,6 +1545,8 @@ android:textSize="@dimen/texto_medio"
 
 > **Consejo:** No es necesario cambiar absolutamente todos los valores de una vez. Enfócate en los más repetidos: paddings de 16dp, textSize de 16sp, márgenes de 8dp y 12dp.
 
+<br/>
+
 ### Resultado Esperado
 
 Al ejecutar la app, deberías notar:
@@ -1508,15 +1554,17 @@ Al ejecutar la app, deberías notar:
 - Las etiquetas de estado con colores de fondo personalizados (naranja para pendiente, azul para en progreso, verde para completada)
 - El ícono vectorial `ic_add` en el FAB
 
+<br/>
+
 ### Verificación
 
-- [ ] `colors.xml` contiene al menos 12 colores definidos (primarios, secundarios, estados, fondo, error)
-- [ ] `dimens.xml` contiene dimensiones para márgenes, paddings y tamaños de texto
-- [ ] `themes.xml` extiende `Theme.Material3.Light.NoActionBar` con colores personalizados
-- [ ] El ícono vectorial `ic_add.xml` existe en `res/drawable/`
-- [ ] Los textos hardcodeados en layouts se referencian desde `strings.xml`
+- `colors.xml` contiene al menos 12 colores definidos (primarios, secundarios, estados, fondo, error)
+- `dimens.xml` contiene dimensiones para márgenes, paddings y tamaños de texto
+- `themes.xml` extiende `Theme.Material3.Light.NoActionBar` con colores personalizados
+- El ícono vectorial `ic_add.xml` existe en `res/drawable/`
+- Los textos hardcodeados en layouts se referencian desde `strings.xml`
 
----
+<br/><br/>
 
 ## Paso 8 — Bloque 5: Refactorización con View Binding y Buenas Prácticas
 
@@ -1524,7 +1572,7 @@ Al ejecutar la app, deberías notar:
 
 ### Instrucciones
 
-1. Verifica que `viewBinding = true` está habilitado en `app/build.gradle.kts` (ya lo configuramos en el Paso 1):
+1. Verifica que `viewBinding = true` está habilitado en `app/build.gradle.kts` (ya lo configuramos en el Paso 1, perspectiva `Project`):
 
 ```kotlin
 buildFeatures {
@@ -1532,12 +1580,14 @@ buildFeatures {
 }
 ```
 
+<br/>
+
 2. Revisa que **todas** las Activities usan View Binding correctamente. Verifica el patrón en cada una:
 
 **Patrón correcto de View Binding en una Activity:**
 
 ```kotlin
-class MiActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     // 1. Declarar la variable binding como lateinit
     private lateinit var binding: ActivityMiBinding
@@ -1559,7 +1609,11 @@ class MiActivity : AppCompatActivity() {
 
 3. Verifica que **ninguna** Activity usa `findViewById()`. Haz una búsqueda global: **Edit → Find → Find in Files** (Ctrl+Shift+F / Cmd+Shift+F), busca `findViewById`. No debe haber resultados en tus archivos Kotlin.
 
+<br/>
+
 4. Revisa que el `TareaAdapter` también usa View Binding en el `ViewHolder` (ya implementado en el Paso 4 con `ItemTareaBinding`).
+
+<br/>
 
 5. Verifica la separación de responsabilidades. Tu estructura actual debe seguir este patrón:
 
@@ -1573,12 +1627,23 @@ class MiActivity : AppCompatActivity() {
 | `CrearTareaActivity` | Formulario de creación con validación |
 | `DetallesTareaActivity` | Visualización de detalles de una tarea |
 
-6. Asegúrate de que no hay operaciones costosas en el hilo principal. Revisa que:
-   - El repositorio usa operaciones en memoria (listas), que son rápidas
-   - No hay llamadas de red ni acceso a disco en `onCreate()` o en los callbacks del adapter
-   - Las actualizaciones de la lista usan `submitList()` de `ListAdapter`, que calcula diffs en un hilo de fondo automáticamente
+<br/>
+
+6. Revisa que el trabajo de la pantalla principal sea ligero:
+
+    - Abre `TareaRepository.kt`. Confirma que las tareas se guardan en una `mutableListOf<Tarea>()` y que los métodos consultan o modifican esa lista. En este laboratorio no se utilizan archivos, bases de datos ni servicios de red.
+    -  Revisa `onCreate()` de las `Activity` y los métodos `onCreateViewHolder()` y `onBindViewHolder()` de `TareaAdapter`. Allí debe haber configuración de vistas, observación de datos y asignación de textos o colores; busca que no aparezcan llamadas a archivos, bases de datos o red.
+    - En `TareaAdapter.kt`, confirma que la clase extiende `ListAdapter<Tarea, TareaViewHolder>` y recibe un `DiffUtil.ItemCallback<Tarea>`.
+    - En `MainActivity.kt`, localiza el observador de las tareas y verifica que entregue la nueva lista mediante `tareaAdapter.submitList(tareas)` —o el nombre que hayas dado al adaptador—. `ListAdapter` calcula las diferencias en segundo plano cuando ya existe una lista mostrada.
+    - Ejecuta la aplicación y prueba crear y filtrar tareas. La interfaz debe seguir respondiendo mientras se actualiza la lista.
+
+**Ajuste importante:** que la app responda bien durante esta prueba es una observación útil, pero por sí sola no demuestra que nunca haya trabajo costoso en el hilo principal. Para este laboratorio, la evidencia principal es **la revisión de los archivos y llamadas indicados**. Si más adelante agregas disco o red, `StrictMode` puede ayudarte a detectar accesos accidentales desde el hilo principal.
+
+<br/>
 
 7. Compila y ejecuta la app: **Run → Run 'app'** (Shift+F10 / Ctrl+R).
+
+<br/>
 
 ### Resultado Esperado
 
@@ -1587,15 +1652,18 @@ La aplicación debe ejecutarse sin errores. Al abrir Logcat (filtrar por el paqu
 - Advertencias de `StrictMode` por operaciones en el hilo principal
 - Errores de `ClassCastException` en vistas
 
+<br/>
+
 ### Verificación
 
-- [ ] Búsqueda global de `findViewById` no arroja resultados en archivos `.kt`
-- [ ] Las tres Activities (`MainActivity`, `CrearTareaActivity`, `DetallesTareaActivity`) usan View Binding
-- [ ] `TareaViewHolder` usa `ItemTareaBinding` en lugar de `itemView.findViewById()`
-- [ ] No hay operaciones de I/O ni de red en el hilo principal
-- [ ] La app compila y ejecuta sin crashes
+- Búsqueda global de `findViewById` no arroja resultados en archivos `.kt`.
+- Las tres Activities (`MainActivity`, `CrearTareaActivity`, `DetallesTareaActivity`) usan View Binding.
+- `TareaViewHolder` usa `ItemTareaBinding` en lugar de `itemView.findViewById()`.
+- No hay operaciones de I/O ni de red en el hilo principal.
+- La app compila y ejecuta sin crashes.
+- Logcat sin excepciones.
 
----
+<br/><br/>
 
 ## Paso 9 — Bloque 6: Navegación Integrada entre Pantallas
 
@@ -1674,6 +1742,8 @@ La aplicación debe ejecutarse sin errores. Al abrir Logcat (filtrar por el paqu
 </manifest>
 ```
 
+<br/>
+
 ### Resultado Esperado
 
 Todas las 5 pruebas funcionales pasan exitosamente:
@@ -1686,16 +1756,18 @@ Todas las 5 pruebas funcionales pasan exitosamente:
 | Crear tarea | Validación en tiempo real, guardado exitoso, retorno a lista |
 | Filtro post-creación | Nueva tarea visible bajo el filtro correcto |
 
+<br/>
+
 ### Verificación
 
-- [ ] La app funciona correctamente en API 30
-- [ ] La app funciona correctamente en API 37
-- [ ] La navegación FAB → CrearTareaActivity → MainActivity funciona
-- [ ] La navegación RecyclerView item → DetallesTareaActivity → MainActivity funciona
-- [ ] Los filtros actualizan la lista correctamente
-- [ ] La validación con TextWatcher funciona en tiempo real
+- La app funciona correctamente en API 30
+- La app funciona correctamente en API 37
+- La navegación FAB → CrearTareaActivity → MainActivity funciona
+- La navegación RecyclerView item → DetallesTareaActivity → MainActivity funciona
+- Los filtros actualizan la lista correctamente
+- La validación con TextWatcher funciona en tiempo real
 
----
+<br/><br/>
 
 ## Validación y Pruebas
 
@@ -1729,9 +1801,11 @@ app/src/main/
 │   │   ├── dimens.xml
 │   │   └── themes.xml
 │   └── drawable/
-│       └── ic_add.xml
+│       └── baseline_add_24.xml
 └── AndroidManifest.xml
 ```
+
+<br/>
 
 ### Lista de Verificación Final
 
@@ -1750,6 +1824,63 @@ app/src/main/
 | 11 | Compilación exitosa sin warnings críticos | ☐ |
 | 12 | Funciona en API 30 y API 37 | ☐ |
 
----
+<br/><br/>
 
-## Solución
+ ## Resumen
+
+En el laboratorio 4.1 construiste **TaskManagerUI**, una aplicación de gestión de tareas con una interfaz basada en vistas XML. Organizaste la pantalla principal con `ConstraintLayout`, mostraste las tareas mediante `RecyclerView` y creaste pantallas para registrar y consultar tareas.
+
+También incorporaste filtros por estado, validación del formulario mientras se escribe, navegación con `Intent`, View Binding y recursos centralizados para textos, colores, dimensiones e íconos. El laboratorio termina con una serie de verificaciones funcionales en el emulador. **Las tareas se mantienen en un repositorio en memoria**; este laboratorio todavía no implementa persistencia en disco.
+
+<br/>
+
+### Lo que lograste en este laboratorio
+
+Al completar las actividades y verificaciones del laboratorio, podrás:
+
+- Diseñar pantallas XML combinando `ConstraintLayout`, `LinearLayout` y `FrameLayout`.
+- Mostrar tareas en un `RecyclerView` mediante `ListAdapter`, `ViewHolder` y `DiffUtil`.
+- Filtrar la lista por tareas pendientes, en progreso o completadas, y mostrar un mensaje cuando un filtro no tenga resultados.
+- Crear tareas con un formulario que valida los campos mediante `TextWatcher` y permite seleccionar el estado con un `Spinner`.
+- Abrir la pantalla de detalles al tocar una tarea y regresar a la lista.
+- Usar View Binding para acceder a las vistas desde las `Activity` y el adaptador.
+- Mantener textos, colores, dimensiones y el ícono del botón flotante en recursos Android.
+- Comprobar el flujo completo: **lista → creación o detalles → regreso a la lista**.
+
+
+<br/>
+
+## 3. Recursos adicionales
+
+▸ **Diseños con ConstraintLayout:** explica cómo posicionar vistas mediante restricciones y construir interfaces adaptables.  
+[https://developer.android.com/develop/ui/views/layout/constraint-layout](https://developer.android.com/develop/ui/views/layout/constraint-layout)
+
+▸ **Listas dinámicas con RecyclerView:** presenta la función del adaptador, el `ViewHolder` y el administrador de diseño.  
+[https://developer.android.com/develop/ui/views/layout/recyclerview](https://developer.android.com/develop/ui/views/layout/recyclerview)
+
+▸ **Referencia de ListAdapter:** complementa el laboratorio con el uso de `DiffUtil.ItemCallback` y `submitList()`.  
+[https://developer.android.com/reference/androidx/recyclerview/widget/ListAdapter](https://developer.android.com/reference/androidx/recyclerview/widget/ListAdapter)
+
+▸ **View Binding:** muestra cómo generar y utilizar clases de vinculación para acceder a las vistas de un layout.  
+[https://developer.android.com/topic/libraries/view-binding](https://developer.android.com/topic/libraries/view-binding)
+
+▸ **Recursos de aplicación:** explica cómo organizar y referenciar textos, colores, dimensiones y otros recursos.  
+[https://developer.android.com/guide/topics/resources/providing-resources](https://developer.android.com/guide/topics/resources/providing-resources)
+
+▸ **Sintaxis básica de Kotlin:** repasa variables, funciones, clases, condiciones y colecciones utilizadas en el laboratorio.  
+[https://kotlinlang.org/docs/basic-syntax.html](https://kotlinlang.org/docs/basic-syntax.html)
+
+▸ **Recorrido práctico de Kotlin:** ofrece ejercicios breves para reforzar el lenguaje paso a paso.  
+[https://kotlinlang.org/docs/kotlin-tour-welcome.html](https://kotlinlang.org/docs/kotlin-tour-welcome.html) 
+
+▸ **Material Design en Android:** explica cómo aplicar temas y componentes Material en aplicaciones que usan vistas XML.  
+[https://developer.android.com/develop/ui/views/theming/look-and-feel](https://developer.android.com/develop/ui/views/theming/look-and-feel)
+
+▸ **Material 3 para componentes XML:** muestra cómo configurar la biblioteca Material Components y utilizar temas `Theme.Material3`.  
+[https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)
+
+▸ **Catálogo de íconos Material:** permite buscar íconos como `add` y explorar sus variantes.  
+[https://fonts.google.com/icons](https://fonts.google.com/icons)
+
+▸ **Vector Asset Studio:** explica cómo incorporar un ícono Material al proyecto como recurso vectorial en `res/drawable`.  
+[https://developer.android.com/studio/write/vector-asset-studio](https://developer.android.com/studio/write/vector-asset-studio)

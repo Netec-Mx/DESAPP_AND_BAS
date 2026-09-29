@@ -1,34 +1,27 @@
-# Laboratorio 3 — Navegación y Ciclo de Vida entre Pantallas Android
+# Laboratorio 3.1 — Navegación y Ciclo de Vida entre Pantallas Android
 
-## Metadatos del Laboratorio
-
-| Campo | Valor |
-|---|---|
-| **Duración** | 216 minutos (aprox. 3 h 36 min) |
-| **Complejidad** | Media |
-| **Nivel Bloom** | Aplicar |
-| **Proyecto** | TaskManager |
-| **Paquete base** | `com.cursokotlin.android.taskmanager` |
-
----
+<br/>
+<br/>
 
 ## Descripción General
 
 En este laboratorio transformarás el proyecto conceptual del Laboratorio 2 en una aplicación Android multi-pantalla llamada **TaskManager**. Implementarás cuatro Activities interconectadas mediante Intents explícitos, instrumentarás el ciclo de vida completo con logs en Logcat, manejarás la persistencia de estado ante rotaciones con `onSaveInstanceState`, establecerás comunicación bidireccional con `ActivityResultLauncher` y separarás la lógica de datos con un `ViewModel` básico. Finalmente, configurarás el `AndroidManifest.xml` declarando correctamente cada componente.
 
----
+<br/>
 
-## Objetivos de Aprendizaje
+## Objetivos
 
 Al completar este laboratorio serás capaz de:
 
-- [ ] Verificar experimentalmente los callbacks del ciclo de vida de una Activity (`onCreate` → `onDestroy`) mediante logs en Logcat.
-- [ ] Implementar navegación entre múltiples Activities usando Intents explícitos con paso de datos mediante extras.
-- [ ] Preservar el estado de un formulario ante rotaciones de pantalla usando `onSaveInstanceState` / `onRestoreInstanceState`.
-- [ ] Establecer comunicación bidireccional entre Activities con `ActivityResultLauncher` y `registerForActivityResult`.
-- [ ] Introducir un `ViewModel` con `LiveData` para que la lista de tareas sobreviva cambios de configuración.
+- Verificar experimentalmente los callbacks del ciclo de vida de una Activity (`onCreate` → `onDestroy`) mediante logs en Logcat.
+- Implementar navegación entre múltiples Activities usando Intents explícitos con paso de datos mediante extras.
+- Preservar el estado de un formulario ante rotaciones de pantalla usando `onSaveInstanceState` / `onRestoreInstanceState`.
+- Establecer comunicación bidireccional entre Activities con `ActivityResultLauncher` y `registerForActivityResult`.
+- Introducir un `ViewModel` con `LiveData` para que la lista de tareas sobreviva cambios de configuración.
 
----
+<br/>
+<br/>
+
 
 ## Prerrequisitos
 
@@ -47,56 +40,20 @@ Al completar este laboratorio serás capaz de:
 - AVDs configurados para API 30 y API 37 (mínimo uno operativo).
 - Conexión a Internet para descarga de dependencias Gradle.
 
----
 
-## Entorno del Laboratorio
+<br/>
+<br/>
 
-### Hardware Mínimo
+## Instrucciones
 
-| Componente | Requisito |
-|---|---|
-| Procesador | 64-bit con VT-x / AMD-V habilitado |
-| RAM | 16 GB mínimo |
-| Disco | 50 GB libres en SSD |
-| Pantalla | 1280×800 mínimo |
+### Paso 1 — Crear el Proyecto TaskManager
 
-### Software Requerido
-
-| Herramienta | Versión |
-|---|---|
-| Android Studio | Quail 3 — 2026.1.3 Patch 1 |
-| Kotlin | 2.2.10 |
-| AGP | 9.3.2 |
-| Gradle | 9.3.2 |
-| JDK | 11 (`JavaVersion.VERSION_11`) |
-| compileSdk / targetSdk | 37 |
-| minSdk | 30 |
-| Core KTX | 1.19.0 |
-| Lifecycle Runtime KTX | 2.6.1 |
-| Activity Compose | 1.13.0 (disponible, no usada directamente) |
-| Compose BOM | 2026.02.01 (disponible, no usada directamente) |
-| AppCompat | 1.7.0 |
-| Material | 1.12.0 |
-| ConstraintLayout | 2.2.1 |
-| Lifecycle ViewModel KTX | 2.6.1 |
-| LiveData KTX | 2.6.1 |
-
-### Directorio de Trabajo
-
-| SO | Ruta |
-|---|---|
-| Windows | `C:\AndroidCursoBasico\Lab3\TaskManager` |
-| macOS / Linux | `~/AndroidCursoBasico/Lab3/TaskManager` |
-
----
-
-## Paso 1 — Crear el Proyecto TaskManager
-
-### Objetivo
+**Objetivo**
 
 Crear un nuevo proyecto Android con la plantilla **Empty Views Activity** y configurar completamente los archivos Gradle y el catálogo de versiones.
 
-### Instrucciones
+
+**Instrucciones**
 
 1. Abre **Android Studio Quail 3**.
 
@@ -117,143 +74,26 @@ Crear un nuevo proyecto Android con la plantilla **Empty Views Activity** y conf
 
 5. Haz clic en **Finish** y espera a que finalice la sincronización Gradle.
 
-6. Abre el archivo `gradle/libs.versions.toml` y reemplaza su contenido completo con:
 
-```toml
-[versions]
-agp = "9.3.2"
-kotlin = "2.2.10"
-coreKtx = "1.19.0"
-lifecycleRuntimeKtx = "2.6.1"
-lifecycleViewmodelKtx = "2.6.1"
-lifecycleLivedataKtx = "2.6.1"
-activityCompose = "1.13.0"
-composeBom = "2026.02.01"
-appcompat = "1.7.0"
-material = "1.12.0"
-constraintlayout = "2.2.1"
-junit = "4.13.2"
-junitExt = "1.3.0"
-espressoCore = "3.7.0"
-
-[libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
-androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-
-[plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-```
-
-7. Abre el archivo `build.gradle.kts` **de nivel raíz** y verifica que contenga:
+6. Abre el archivo `app/build.gradle.kts` y agrega el siguiente contenido:
 
 ```kotlin
-// build.gradle.kts (raíz del proyecto)
-plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
-}
-```
-
-8. Abre el archivo `app/build.gradle.kts` y reemplaza su contenido con:
-
-```kotlin
-plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-}
 
 android {
-    namespace = "com.cursokotlin.android.taskmanager"
-    compileSdk = 37
-
-    defaultConfig {
-        applicationId = "com.cursokotlin.android.taskmanager"
-        minSdk = 30
-        targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    // Líneas omitidas 
 
     buildFeatures {
         viewBinding = true
     }
 }
 
-dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-}
 ```
 
-9. Haz clic en **Sync Now** en la barra amarilla que aparece en la parte superior del editor.
+7. Haz clic en **Sync Now** en la barra amarilla que aparece en la parte superior del editor.
 
-10. Abre `settings.gradle.kts` y verifica que el nombre del proyecto sea correcto:
+> **Nota:** El contenido exacto de `settings.gradle.kts` puede variar ligeramente según la versión de Android Studio. 
 
-```kotlin
-pluginManagement {
-    repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
-        mavenCentral()
-        gradlew()
-    }
-}
-dependencyResolution {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-rootProject.name = "TaskManager"
-include(":app")
-```
-
-> **Nota:** El contenido exacto de `settings.gradle.kts` puede variar ligeramente según la versión de Android Studio. Lo importante es que `rootProject.name = "TaskManager"` y que los repositorios `google()` y `mavenCentral()` estén presentes.
+<br/>
 
 ### Resultado Esperado
 
@@ -264,7 +104,8 @@ La sincronización Gradle finaliza sin errores. El proyecto aparece en el explor
 - En la pestaña **Build** de la parte inferior de Android Studio, confirma que no hay errores en rojo.
 - Ejecuta el proyecto en un AVD API 37 (o API 30). Debe mostrar la pantalla predeterminada con "Hello World!".
 
----
+<br/>
+<br/>
 
 ## Paso 2 — Crear el Modelo de Datos Tarea
 
@@ -274,7 +115,7 @@ Definir la data class `Tarea` y la sealed class `EstadoTarea` que servirán como
 
 ### Instrucciones
 
-1. En el explorador de Android Studio, haz clic derecho sobre el paquete `com.cursokotlin.android.taskmanager` → **New → Package**. Nómbralo `model`.
+1. En el explorador de Android Studio, perspectiva Android, haz clic derecho sobre el paquete `com.cursokotlin.android.taskmanager` → **New → Package**. Nómbralo `model`.
 
 2. Dentro del paquete `model`, crea un nuevo archivo Kotlin: **New → Kotlin Class/File → File**, nómbralo `Tarea`.
 
@@ -360,9 +201,11 @@ El proyecto compila sin errores. Los paquetes `model` y `repository` aparecen co
 
 ### Verificación
 
-Ejecuta **Build → Make Project** (`Ctrl+F9` / `Cmd+F9`). El resultado debe ser `BUILD SUCCESSFUL`.
+Ejecuta **Build**. El resultado debe ser `BUILD SUCCESSFUL`.
 
----
+<br/>
+<br/>
+
 
 ## Paso 3 — Instrumentar el Ciclo de Vida en MainActivity
 
@@ -499,6 +342,8 @@ class MainActivity : AppCompatActivity() {
 
 7. Observa los logs que aparecen al iniciar la app. Deberías ver:
 
+<br/>
+
 ### Resultado Esperado
 
 ```
@@ -507,6 +352,8 @@ D  onCreate: 3 tareas en repositorio
 D  >>> onStart() llamado
 D  >>> onResume() llamado — Activity VISIBLE e INTERACTIVA
 ```
+
+<br/>
 
 8. Ahora realiza las siguientes acciones y observa los logs en cada caso:
 
@@ -522,7 +369,8 @@ D  >>> onResume() llamado — Activity VISIBLE e INTERACTIVA
 - Confirma que cada acción produce exactamente la secuencia de logs descrita en la tabla.
 - La rotación del dispositivo genera un ciclo completo de destrucción y recreación: esto demuestra por qué se pierde el estado sin mecanismos de preservación.
 
----
+<br/>
+<br/>
 
 ## Paso 4 — Crear Activities Adicionales y Navegación con Intents
 
@@ -540,6 +388,8 @@ Crear tres Activities adicionales (`DetallesTareaActivity`, `CrearTareaActivity`
    - Activity Name: `AcercaDeActivity`
    - Layout Name: `activity_acerca_de`
    - Marca la casilla **Launcher Activity**: **NO**
+   - Package name: `com.cursokotlin.android.taskmanager`
+   - Source Language: `Kotlin`
 
 3. Reemplaza el contenido de `res/layout/activity_acerca_de.xml`:
 
@@ -1024,6 +874,8 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
+<br/><br/>
+
 ### Resultado Esperado
 
 La aplicación muestra la pantalla principal con la lista de 3 tareas precargadas, un botón "Crear Nueva Tarea" y un botón "Acerca De". Al pulsar cada botón se navega a la Activity correspondiente.
@@ -1036,7 +888,9 @@ La aplicación muestra la pantalla principal con la lista de 3 tareas precargada
 4. Pulsa **"Crear Nueva Tarea"** → se abre el formulario. Escribe un título y descripción, pulsa **"Guardar"** → regresa a `MainActivity` con la nueva tarea visible en la lista.
 5. En Logcat (filtro `tag:MainActivity_Lifecycle`), confirma que al navegar a otra Activity se producen `onPause` → `onStop`, y al regresar `onRestart` → `onStart` → `onResume`.
 
----
+<br/>
+<br/>
+
 
 ## Paso 5 — Verificar y Configurar el AndroidManifest.xml
 
@@ -1119,15 +973,18 @@ Revisar que todas las Activities estén correctamente declaradas en el manifiest
 </resources>
 ```
 
+<br/>
+
 ### Resultado Esperado
 
 El manifiesto declara 4 Activities: `MainActivity` (exported=true con intent-filter), `DetallesTareaActivity`, `CrearTareaActivity` y `AcercaDeActivity` (todas exported=false).
 
 ### Verificación
 
-Ejecuta **Build → Rebuild Project**. Si falta alguna declaración de Activity, Android generará un error indicando que la Activity no está registrada en el manifiesto.
+Ejecuta **Build**. Si falta alguna declaración de Activity, Android generará un error indicando que la Activity no está registrada en el manifiesto.
 
----
+<br/>
+<br/>
 
 ## Paso 6 — Manejar Estado ante Rotación con onSaveInstanceState
 
@@ -1261,7 +1118,9 @@ El texto del `EditText` se preserva automáticamente (por tener `android:id`), y
 - El texto "Hola" sigue presente en el campo de título.
 - Los logs confirman la secuencia completa de guardado y restauración.
 
----
+<br/>
+<br/>
+
 
 ## Paso 7 — Introducir ViewModel con LiveData
 
@@ -1466,15 +1325,21 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-4. Ejecuta la app y crea una nueva tarea (ej. "Tarea de prueba ViewModel").
+4. En Logcat, selecciona el dispositivo donde ejecutarás la prueba, el proceso `com.cursokotlin.android.taskmanager` y el nivel `Debug`. Borra los mensajes anteriores y filtra por el tag:
 
-5. Verifica que la nueva tarea aparece en la lista (ahora gestionada por LiveData).
+   `tag:MainActivity_Lifecycle`
 
-6. **Rota el dispositivo** (`Ctrl+←` o `Ctrl+→`).
+5. Ejecuta la app. En `MainActivity`, anota el valor de `ViewModel obtenido`. Después, pulsa **Crear Nueva Tarea**, captura una tarea de prueba y pulsa **Guardar**.
 
-7. Observa en Logcat:
+6. Confirma que regresaste a `MainActivity` y que la nueva tarea aparece en la lista. **Con esta pantalla visible**, rota el dispositivo. En el emulador puedes usar `Ctrl+←` o `Ctrl+→`, o los controles de rotación del emulador.
 
-### Resultado Esperado
+7. En Logcat, comprueba que `MainActivity` se recreó y compara el valor de `ViewModel obtenido` con el que anotaste antes de rotar.
+
+<br/>
+
+### Resultado esperado
+
+Los mensajes importantes deben aparecer en este orden aproximado:
 
 ```
 D  >>> onPause() llamado — Activity pierde el foco
@@ -1495,7 +1360,9 @@ D  >>> onResume() llamado — Activity VISIBLE e INTERACTIVA
 - El log muestra que `onCleared()` del ViewModel **NO** se llama al rotar (solo se llamaría al cerrar la Activity definitivamente con Back).
 - Presiona Back para salir completamente. Ahora sí debe aparecer en Logcat: `>>> onCleared() — ViewModel destruido`.
 
----
+<br/>
+<br/>
+
 
 ## Paso 8 — Prueba Integral de Navegación y Ciclo de Vida
 
@@ -1518,17 +1385,21 @@ Ejecuta la siguiente secuencia de pruebas en orden, registrando los resultados:
 
 ```
 D  >>> onCreate() llamado
+D  ViewModel obtenido: 256771276
 D  >>> onStart() llamado
-D  >>> onResume() llamado
-D  >>> onPause() llamado        ← Home
-D  >>> onStop() llamado
-D  >>> onRestart() llamado      ← Volver
+D  LiveData actualizado: 3 tareas
+D  >>> onResume() llamado - Activity VISIBLE e INTERACTIVA
+D  >>> onPause() llamado - Activity pierde el foco ← Home
+D  >>> onStop() llamado - Activity NO visible
+D  >>> onRestart() llamado - Activity regresa de onStop   ← Volver
 D  >>> onStart() llamado
-D  >>> onResume() llamado
-D  >>> onPause() llamado        ← Back
-D  >>> onStop() llamado
-D  >>> onDestroy() llamado
+D  >>> onResume() llamado - Activity VISIBLE e INTERACTIVA
+D  >>> onPause() llamado - Activity pierde el foco      ← Back
+D  >>> onStop() llamado - Activity NO visible
+D  >>> onDestroy() llamado - Activity DESTRUIDA
 ```
+
+<br/>
 
 #### Prueba 2: Navegación con Intent explícito y extras
 
@@ -1536,6 +1407,15 @@ D  >>> onDestroy() llamado
 2. Pulsa sobre la lista de tareas para abrir los detalles de la primera tarea.
 3. Verifica que `DetallesTareaActivity` muestra: ID: 1, "Configurar entorno", "Instalar Android Studio y crear AVDs", Estado: Completada.
 4. Pulsa "Volver".
+
+**Resultado esperado en Logcat** (filtro `tag:Detalles_Lifecycle`):
+
+```
+D  >>> onCreate() llamado
+D  Recibido: id=1, titulo=Configurar entorno, estado=Completada
+```
+
+<br/>
 
 #### Prueba 3: Comunicación bidireccional con ActivityResultLauncher
 
@@ -1547,6 +1427,17 @@ D  >>> onDestroy() llamado
 6. Pulsa "Cancelar".
 7. Verifica que la lista sigue con 4 tareas (no se agregó ninguna).
 
+
+**Resultado esperado en Logcat** (filtro `tag:CrearTarea_Lifecycle `):
+
+```
+D  >>> onCreate() llamado
+D  Guardando tarea: titulo=Estudiar View Model
+D  >>> onCreate() llamado
+```
+
+<br/>
+
 #### Prueba 4: Preservación de estado ante rotación
 
 1. Pulsa "Crear Nueva Tarea".
@@ -1556,12 +1447,50 @@ D  >>> onDestroy() llamado
 5. Verifica que el título de la barra muestra el contador correcto.
 6. Pulsa "Cancelar" y regresa.
 
+<br/>
+
+
+**Resultado esperado en Logcat** (filtro `tag:CrearTarea_Lifecycle `):
+
+```
+D  >>> onCreate() llamado
+D  >>> onSaveInstanceState: contadorCaracteres=13 guardado
+D  >>> onCreate() llamado
+D  Estado restaurado: contadorCaracteres=13
+D  >>> onRestoreInstanceState: contadorCaracteres=13 restaurado
+```
+
+<br/>
+
 #### Prueba 5: ViewModel sobrevive rotación
 
 1. En la pantalla principal, anota cuántas tareas hay.
 2. Rota el emulador.
 3. Verifica que la cantidad de tareas es la misma.
 4. Verifica en Logcat que el hashCode del ViewModel es idéntico.
+
+**Resultado esperado en Logcat** (filtro `tag:MainActivity_Lifecycle`):
+
+```
+D  >>> onPause() llamado — Activity pierde el foco
+D  >>> onStop() llamado — Activity NO visible
+D  >>> onDestroy() llamado — Activity DESTRUIDA
+D  >>> onCreate() llamado
+D  ViewModel obtenido: 192307989
+D  >>> onStart() llamado
+D  LiveData actualizado: 4 tareas
+D  >>> onResume() llamado — Activity VISIBLE e INTERACTIVA
+D  >>> onPause() llamado — Activity pierde el foco
+D  >>> onStop() llamado — Activity NO visible
+D  >>> onDestroy() llamado — Activity DESTRUIDA
+D  >>> onCreate() llamado
+D  ViewModel obtenido: 192307989
+D  >>> onStart() llamado
+D  LiveData actualizado: 4 tareas
+D  >>> onResume() llamado — Activity VISIBLE e INTERACTIVA
+```
+
+<br/>
 
 #### Prueba 6: Ejecución en AVD API 30
 
@@ -1578,7 +1507,9 @@ Las 6 pruebas se completan exitosamente. La app funciona de manera idéntica en 
 
 Todas las pruebas producen los resultados descritos. No hay crashes ni errores en Logcat con nivel `E` (Error) para los TAGs del proyecto.
 
----
+<br/>
+<br/>
+
 
 ## Validación y Pruebas
 
@@ -1586,7 +1517,7 @@ Ejecuta las siguientes verificaciones finales:
 
 | # | Verificación | Comando / Acción | Resultado Esperado |
 |---|---|---|---|
-| 1 | Compilación limpia | **Build → Rebuild Project** | `BUILD SUCCESSFUL` sin warnings críticos |
+| 1 | Compilación limpia | **Build** | `BUILD SUCCESSFUL` sin warnings críticos |
 | 2 | Manifiesto completo | Abrir `AndroidManifest.xml` | 4 Activities declaradas, `MainActivity` con `exported="true"` |
 | 3 | Logs de ciclo de vida | Filtrar Logcat por `tag:MainActivity_Lifecycle` | Secuencia completa de callbacks visible |
 | 4 | Navegación a Detalles | Pulsar lista de tareas | `DetallesTareaActivity` muestra datos correctos vía extras |
@@ -1597,7 +1528,9 @@ Ejecuta las siguientes verificaciones finales:
 | 9 | API 30 compatible | Ejecutar en AVD API 30 | Funcionalidad idéntica |
 | 10 | ViewBinding activo | Verificar `buildFeatures { viewBinding = true }` | Sin `findViewById` en el código |
 
----
+<br/>
+<br/>
+
 
 ## Solución de Problemas
 
@@ -1624,9 +1557,11 @@ E  android.content.ActivityNotFoundException: Unable to find explicit activity c
 ```
 
 3. Agrega manualmente cualquier declaración faltante.
-4. Ejecuta **Build → Rebuild Project** y vuelve a lanzar la app.
+4. Ejecuta **Build** y vuelve a lanzar la app.
 
----
+<br/>
+<br/>
+
 
 ### Problema 2: ViewModel se recrea al rotar (hashCode diferente)
 
@@ -1652,7 +1587,9 @@ viewModel = TareasViewModel()
 3. Asegúrate de que la clase `TareasViewModel` extiende de `ViewModel()` (no de `AppCompatActivity` ni de ninguna otra clase).
 4. Reconstruye y ejecuta. El hashCode debe ser idéntico antes y después de la rotación.
 
----
+<br/>
+<br/>
+
 
 ## Limpieza
 
@@ -1677,7 +1614,9 @@ Al finalizar el laboratorio, el proyecto debe mantenerse intacto para los labora
 
 4. **No eliminar el proyecto.** Se reutilizará en el Laboratorio 4 (TaskManagerUI) y Laboratorio 5 (TaskManagerMedia).
 
----
+<br/>
+<br/>
+
 
 ## Resumen
 
@@ -1692,6 +1631,9 @@ En este laboratorio implementaste los fundamentos de la navegación y el ciclo d
 | **Preservación de estado** | `onSaveInstanceState` / `onRestoreInstanceState` para el contador de caracteres en el formulario |
 | **ViewModel + LiveData** | `TareasViewModel` con `MutableLiveData<List<Tarea>>` observado desde `MainActivity` |
 | **AndroidManifest.xml** | 4 Activities declaradas con atributos `name`, `exported`, `label` e `intent-filter` |
+
+<br/>
+<br/>
 
 ### Estructura Final del Proyecto
 
@@ -1709,6 +1651,9 @@ app/src/main/kotlin/com/cursokotlin/android/taskmanager/
     └── TareasViewModel.kt     (ViewModel con LiveData)
 ```
 
+<br/>
+<br/>
+
 ### Recursos Adicionales
 
 - [Guía oficial: Ciclo de vida de una Activity](https://developer.android.com/guide/components/activities/activity-lifecycle)
@@ -1717,4 +1662,3 @@ app/src/main/kotlin/com/cursokotlin/android/taskmanager/
 - [Guía oficial: LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 - [Referencia: ActivityResultLauncher](https://developer.android.com/training/basics/intents/result)
 
----

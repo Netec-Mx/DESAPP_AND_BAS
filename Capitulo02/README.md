@@ -1,41 +1,32 @@
-# Laboratorio 2 — Aplicación de fundamentos de Kotlin en un caso práctico
+# Laboratorio 2.1 — Aplicación de fundamentos de Kotlin en un caso práctico
 
-## 1. Metadatos
+<br/><br/>
 
-| Campo | Valor |
-|---|---|
-| **Duración** | 216 minutos (≈ 3 h 36 min) |
-| **Complejidad** | Media |
-| **Nivel Bloom** | Aplicar (*Apply*) |
-
----
-
-## 2. Descripción general
+## Descripción general
 
 En este laboratorio construirás **KotlinTasks**, una aplicación Android de gestión de tareas pendientes (*To-Do List*) que aplica los fundamentos de Kotlin aprendidos en la lección 2.1: variables `val`/`var`, tipos de datos, inferencia de tipos, inmutabilidad y el sistema completo de null-safety (`?.`, `?:`, `!!`, `let`). Partirás de un proyecto nuevo basado en la plantilla *Empty Views Activity*, crearás un modelo de datos con `data class`, implementarás un repositorio en memoria con `companion object`, manipularás colecciones con operaciones funcionales, aplicarás expresiones de control para lógica de negocio y manejarás errores con `try-catch-finally`. La interfaz mostrará tareas en un `ScrollView` con `LinearLayout`, permitiendo agregar y filtrar tareas mediante `EditText` y `Button`.
 
----
+<br/><br/>
 
-## 3. Objetivos de aprendizaje
+## Objetivos 
 
 Al completar este laboratorio serás capaz de:
 
-- [ ] Aplicar variables `val`/`var`, tipos de datos primitivos y de referencia, y el sistema de null-safety de Kotlin (`?.`, `!!`, `?:`, tipos nullable) en código Android real.
-- [ ] Implementar funciones con parámetros tipados, valores por defecto, parámetros nombrados y funciones de extensión sobre clases de Android.
-- [ ] Definir clases de datos (`data class`), clases selladas (`sealed class`), objetos `companion` y aplicar herencia e interfaces en un contexto Android.
-- [ ] Manipular colecciones de Kotlin (`List`, `MutableList`, `Map`, `Set`) usando operaciones funcionales como `filter`, `map`, `forEach` y `sortedBy`.
-- [ ] Utilizar expresiones de control `if`/`when`/`for`/`while` y manejo de errores `try-catch-finally` para implementar lógica de negocio en una aplicación Android funcional.
+- Aplicar variables `val`/`var`, tipos de datos primitivos y de referencia, y el sistema de null-safety de Kotlin (`?.`, `!!`, `?:`, tipos nullable) en código Android real.
+- Implementar funciones con parámetros tipados, valores por defecto, parámetros nombrados y funciones de extensión sobre clases de Android.
+- Definir clases de datos (`data class`), clases selladas (`sealed class`), objetos `companion` y aplicar herencia e interfaces en un contexto Android.
+- Manipular colecciones de Kotlin (`List`, `MutableList`, `Map`, `Set`) usando operaciones funcionales como `filter`, `map`, `forEach` y `sortedBy`.
+- Utilizar expresiones de control `if`/`when`/`for`/`while` y manejo de errores `try-catch-finally` para implementar lógica de negocio en una aplicación Android funcional.
 
----
+<br/><br/>
 
-## 4. Prerrequisitos
+## Prerrequisitos
 
 ### Conocimientos previos
 
 | Requisito | Detalle |
 |---|---|
 | Laboratorio 1 completado | Android Studio Quail 3 instalado, AVDs configurados (API 30/35/36/37), proyecto *HolaAndroid* funcional |
-| Configuración Gradle verificada | `libs.versions.toml` con Kotlin 2.2.10, AGP 9.3.2, Gradle 9.3.2 |
 | Programación básica | Variables, funciones, condicionales y bucles en cualquier lenguaje |
 | Estructura de proyecto Android | Comprensión de `AndroidManifest.xml`, `MainActivity.kt`, `activity_main.xml` |
 
@@ -45,60 +36,9 @@ Al completar este laboratorio serás capaz de:
 - Al menos un AVD operativo (se recomienda API 35 para las pruebas de este laboratorio).
 - Conexión a Internet para resolución inicial de dependencias Gradle.
 
----
+<br/><br/>
 
-## 5. Entorno del laboratorio
-
-### Hardware mínimo
-
-| Componente | Especificación |
-|---|---|
-| Procesador | 64 bits, Intel i5 8.ª gen. / AMD Ryzen 5 o superior, VT-x/AMD-V habilitado |
-| RAM | 16 GB mínimo (32 GB recomendado) |
-| Disco | 50 GB libres en SSD |
-| Pantalla | 1280×800 mínimo (1920×1080 recomendado) |
-| GPU | Compatible con OpenGL ES 2.0+ |
-
-### Software requerido
-
-| Software | Versión |
-|---|---|
-| Android Studio | Quail 3 — 2026.1.3 Patch 1 |
-| Kotlin | 2.2.10 |
-| AGP | 9.3.2 |
-| Gradle | 9.3.2 |
-| JDK | 11 (`JavaVersion.VERSION_11`) |
-| compileSdk / targetSdk | 37 |
-| minSdk | 30 |
-| Compose BOM | 2026.02.01 |
-| Activity Compose | 1.13.0 |
-| Core KTX | 1.19.0 |
-| Lifecycle Runtime KTX | 2.6.1 |
-
-### Directorio de trabajo
-
-| Sistema operativo | Ruta |
-|---|---|
-| Windows | `C:\AndroidCursoBasico\Lab2\KotlinTasks` |
-| macOS / Linux | `~/AndroidCursoBasico/Lab2/KotlinTasks` |
-
-### Preparación inicial del directorio
-
-**Windows (PowerShell):**
-
-```powershell
-New-Item -ItemType Directory -Force -Path "C:\AndroidCursoBasico\Lab2"
-```
-
-**macOS / Linux (Terminal):**
-
-```bash
-mkdir -p ~/AndroidCursoBasico/Lab2
-```
-
----
-
-## 6. Instrucciones paso a paso
+## Instrucciones
 
 ### Paso 1 — Crear el proyecto KotlinTasks en Android Studio
 
@@ -122,6 +62,8 @@ mkdir -p ~/AndroidCursoBasico/Lab2
 
 5. Haz clic en **Finish** y espera a que Gradle sincronice completamente (observa la barra de progreso inferior).
 
+<br/>
+
 **Resultado esperado:** El proyecto se abre con `MainActivity.kt` y `activity_main.xml` generados. La ventana de *Build* muestra `BUILD SUCCESSFUL`.
 
 **Verificación:**
@@ -131,125 +73,9 @@ mkdir -p ~/AndroidCursoBasico/Lab2
   - `app/res/layout/activity_main.xml`
   - `Gradle Scripts/libs.versions.toml`
 
----
+<br/><br/>
 
-### Paso 2 — Configurar el catálogo de versiones y archivos Gradle
-
-**Objetivo:** Establecer las versiones fijas del curso en `libs.versions.toml` y ajustar los archivos `build.gradle.kts` del proyecto y del módulo `app`.
-
-**Instrucciones:**
-
-1. Abre el archivo `gradle/libs.versions.toml` y **reemplaza todo su contenido** con lo siguiente:
-
-```toml
-[versions]
-agp = "9.3.2"
-kotlin = "2.2.10"
-coreKtx = "1.19.0"
-lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.13.0"
-composeBom = "2026.02.01"
-junit = "4.13.2"
-junitExt = "1.3.0"
-espressoCore = "3.7.0"
-appcompat = "1.7.0"
-material = "1.12.0"
-constraintlayout = "2.2.1"
-
-[libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-
-[plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-```
-
-2. Abre el archivo **`build.gradle.kts` de nivel proyecto** (raíz) y verifica que contenga:
-
-```kotlin
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
-}
-```
-
-3. Abre el archivo **`app/build.gradle.kts`** (módulo app) y **reemplaza todo su contenido** con:
-
-```kotlin
-plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-}
-
-android {
-    namespace = "com.cursokotlin.android.kotlintasks"
-    compileSdk = 37
-
-    defaultConfig {
-        applicationId = "com.cursokotlin.android.kotlintasks"
-        minSdk = 30
-        targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-}
-
-dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-}
-```
-
-4. Haz clic en **Sync Now** (o **File → Sync Project with Gradle Files**) y espera a que la sincronización finalice sin errores.
-
-**Resultado esperado:** La barra inferior muestra `BUILD SUCCESSFUL` sin advertencias de versiones dinámicas.
-
-**Verificación:**
-
-- Abre **File → Project Structure → Modules → app** y confirma que `compileSdk = 37`, `minSdk = 30`, `targetSdk = 37`.
-- En la pestaña *Build*, no deben aparecer errores ni warnings de compatibilidad.
-
----
-
-### Paso 3 — Crear el modelo de datos con `data class` y `sealed class`
+### Paso 2 — Crear el modelo de datos con `data class` y `sealed class`
 
 **Objetivo:** Definir la estructura de datos de la aplicación aplicando `data class`, `sealed class`, tipos nullable y variables `val`/`var`.
 
@@ -320,11 +146,11 @@ interface TareaListener {
 
 **Verificación:**
 
-- Haz **Build → Make Project** (Ctrl+F9 / Cmd+F9). El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
+- Haz **Build → Assemble Project** (Icono martillo, menú lateral izquierdo). El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
 
----
+<br/><br/>
 
-### Paso 4 — Implementar el repositorio en memoria con `companion object`
+### Paso 3 — Implementar el repositorio en memoria con `companion object`
 
 **Objetivo:** Crear un repositorio que gestione la colección de tareas en memoria, aplicando `companion object`, `MutableList`, operaciones funcionales y manejo de errores.
 
@@ -484,11 +310,11 @@ class TareaRepository {
 
 **Verificación:**
 
-- Haz **Build → Make Project** (Ctrl+F9 / Cmd+F9). El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
+- Haz **Build → Make Project**. El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
 
----
+<br/><br/>
 
-### Paso 5 — Crear funciones de extensión y utilidades
+### Paso 4 — Crear funciones de extensión y utilidades
 
 **Objetivo:** Implementar funciones de extensión sobre tipos de Kotlin y Android, aplicando funciones con parámetros tipados y valores por defecto.
 
@@ -611,11 +437,11 @@ fun TextView.mostrarExito(mensaje: String) {
 
 **Verificación:**
 
-- Haz **Build → Make Project** (Ctrl+F9 / Cmd+F9). El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
+- Haz **Build → Make Project**. El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
 
----
+<br/><br/>
 
-### Paso 6 — Diseñar el layout XML de la interfaz
+### Paso 5 — Diseñar el layout XML de la interfaz
 
 **Objetivo:** Crear la interfaz de usuario con `ScrollView`, `LinearLayout`, `EditText` y `Button` para interactuar con las tareas.
 
@@ -1026,11 +852,12 @@ fun TextView.mostrarExito(mensaje: String) {
 **Verificación:**
 
 - Cambia a la pestaña **Design** y confirma que todos los elementos son visibles.
-- Haz **Build → Make Project** (Ctrl+F9 / Cmd+F9). El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
+- Haz **Build**. El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
+- Solo si es necesario corrige MainActivity quitando la línea que accede a R.id.main
 
----
+<br/><br/>
 
-### Paso 7 — Implementar la lógica de MainActivity
+### Paso 6 — Implementar la lógica de MainActivity
 
 **Objetivo:** Conectar la interfaz con el repositorio, aplicando todas las características de Kotlin: null-safety, expresiones de control, manejo de errores, funciones de extensión y operaciones funcionales sobre colecciones.
 
@@ -1056,6 +883,8 @@ import com.cursokotlin.android.kotlintasks.utils.generarResumenTexto
 import com.cursokotlin.android.kotlintasks.utils.mostrarError
 import com.cursokotlin.android.kotlintasks.utils.mostrarExito
 import com.google.android.material.textfield.TextInputEditText
+
+import com.cursokotlin.android.kotlintasks.R
 
 /**
  * Activity principal de KotlinTasks.
@@ -1406,11 +1235,11 @@ class MainActivity : AppCompatActivity(), TareaListener {
 
 **Verificación:**
 
-- Haz **Build → Make Project** (Ctrl+F9 / Cmd+F9). El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
+- Haz **Build**. El resultado debe ser `BUILD SUCCESSFUL` con 0 errores.
 
----
+<br/><br/>
 
-### Paso 8 — Ejecutar y probar la aplicación
+### Paso 7 — Ejecutar y probar la aplicación
 
 **Objetivo:** Verificar que la aplicación funciona correctamente en el emulador, probando todas las funcionalidades implementadas.
 
@@ -1494,15 +1323,15 @@ class MainActivity : AppCompatActivity(), TareaListener {
 - La ventana **Logcat** (filtro: `com.cursokotlin.android.kotlintasks`) no muestra excepciones no controladas.
 - Cada acción produce la respuesta visual esperada en la interfaz.
 
----
+<br/><br/>
 
-### Paso 9 — Agregar prueba unitaria para el repositorio
+### Paso 8 — Agregar prueba unitaria para el repositorio
 
 **Objetivo:** Crear una prueba unitaria básica que verifique la funcionalidad del repositorio, aplicando los conceptos de Kotlin en un contexto de testing.
 
 **Instrucciones:**
 
-1. En el panel *Project* (vista *Android*), navega a `app/java/com.cursokotlin.android.kotlintasks (test)` (la carpeta de tests unitarios, no la de `androidTest`).
+1. En el panel *Project* (vista *Android*), navega a `app/java/com.cursokotlin.android.kotlintasks (test)`, la carpeta de tests unitarios, no la de `androidTest`.
 
 2. Crea un nuevo archivo Kotlin llamado `TareaRepositoryTest`:
 
@@ -1707,35 +1536,35 @@ class TareaRepositoryTest {
 
 3. Para ejecutar las pruebas, haz clic derecho sobre el archivo `TareaRepositoryTest` → **Run 'TareaRepositoryTest'**.
 
-**Resultado esperado:** Todas las 12 pruebas pasan (barra verde).
+**Resultado esperado:** Todas las 13 pruebas pasan (barra verde).
 
 **Verificación:**
 
-- La ventana *Run* muestra: `Tests passed: 12 of 12`.
+- La ventana *Run* muestra: `Tests passed: 13 of 13`.
 - No hay pruebas fallidas ni errores de compilación.
 
----
+<br/><br/>
 
-### Paso 10 — Verificación final y limpieza
+### Paso 9 — Verificación final y limpieza
 
 **Objetivo:** Confirmar que todo el proyecto compila, las pruebas pasan y la aplicación funciona correctamente.
 
 **Instrucciones:**
 
 1. Ejecuta **Build → Clean Project**.
-2. Ejecuta **Build → Rebuild Project**.
+2. Ejecuta **Build → Clean and Assemble Project With Test**.
 3. Verifica que el resultado es `BUILD SUCCESSFUL`.
-4. Ejecuta las pruebas unitarias nuevamente: clic derecho sobre `TareaRepositoryTest` → **Run 'TareaRepositoryTest'**. Confirma que las 12 pruebas pasan.
+4. Ejecuta las pruebas unitarias nuevamente: clic derecho sobre `TareaRepositoryTest` → **Run 'TareaRepositoryTest'**. Confirma que las 13 pruebas pasan.
 5. Ejecuta la aplicación en el emulador (Run ▶) y repite al menos las pruebas 1, 2, 4 y 9 del Paso 8.
 
-**Resultado esperado:** Compilación exitosa, 12 pruebas unitarias pasando, aplicación funcional sin crashes.
+**Resultado esperado:** Compilación exitosa, 13 pruebas unitarias pasando, aplicación funcional sin crashes.
 
 **Verificación final:**
 
 | Verificación | Estado esperado |
 |---|---|
 | Build → Rebuild Project | `BUILD SUCCESSFUL` |
-| Pruebas unitarias | 12 de 12 pasando (barra verde) |
+| Pruebas unitarias | 13 de 13 pasando (barra verde) |
 | App se inicia sin crash | Pantalla principal visible |
 | Cargar datos de prueba | 5 tareas mostradas |
 | Agregar tarea | Tarea aparece en la lista |
@@ -1745,9 +1574,9 @@ class TareaRepositoryTest {
 | Cambio de estado | Estado actualizado en la lista |
 | Resumen | Conteos correctos |
 
----
+<br/><br/>
 
-## 7. Resumen de conceptos aplicados
+## Resumen de conceptos aplicados
 
 | Concepto de Kotlin | Dónde se aplicó |
 |---|---|
@@ -1775,11 +1604,35 @@ class TareaRepositoryTest {
 | `require` | Validación en `TareaRepository.agregarTarea()` |
 | `lateinit` | Referencias a vistas en `MainActivity.kt` |
 
----
+<br/><br/>
 
-## 8. Solución de problemas comunes
+## Resumen
 
-| Problema | Causa probable | Solución |
-|---|---|---|
-| Error `Unresolved reference: R` | Gradle no ha generado la clase R | Ejecuta **Build → Clean Project** y luego **Build → Rebuild Project** |
-| Error en `TextInput
+### Lo que lograste en este laboratorio
+
+Construiste **KotlinTasks**, una aplicación Android para administrar tareas, y aplicaste los fundamentos de Kotlin en un caso práctico:
+
+* Modelaste las tareas con una `data class` y sus estados con una `sealed class`.
+* Creaste un repositorio en memoria para agregar, consultar, buscar, filtrar, ordenar, actualizar y eliminar tareas.
+* Practicaste `val` y `var`, tipos explícitos e inferidos, valores por defecto, argumentos nombrados y tipos anulables.
+* Usaste operaciones de colecciones como `filter`, `map`, `forEach` y `sortedBy`, además de funciones de extensión y `companion object`.
+* Aplicaste `if`, `when`, ciclos y manejo de errores con `try-catch-finally` y `require`.
+* Diseñaste una interfaz con vistas XML para mostrar, agregar y filtrar tareas, y conectaste sus controles con la lógica de Kotlin.
+* Verificaste las funciones de la app mediante **10 pruebas funcionales** y agregaste **13 pruebas unitarias** para el repositorio.
+
+**Alcance:** las tareas se guardan en memoria; no se persisten al cerrar o reiniciar la aplicación.
+
+
+### Recursos adicionales
+
+
+| Recurso                                                                | URL                                                                                                                  |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Introducción a Kotlin: variables, tipos e interpolación de cadenas** | [https://kotlinlang.org/docs/kotlin-tour-hello-world.html](https://kotlinlang.org/docs/kotlin-tour-hello-world.html) |
+| **Funciones: parámetros, valores predeterminados y retorno**           | [https://kotlinlang.org/docs/functions.html](https://kotlinlang.org/docs/functions.html)                             |
+| **Clases, constructores, herencia y objetos complementarios**          | [https://kotlinlang.org/docs/classes.html](https://kotlinlang.org/docs/classes.html)                                 |
+| **Data classes para representar datos**                                | [https://kotlinlang.org/docs/data-classes.html](https://kotlinlang.org/docs/data-classes.html)                       |
+| **Colecciones: listas, conjuntos y mapas**                             | [https://kotlinlang.org/docs/collections-overview.html](https://kotlinlang.org/docs/collections-overview.html)       |
+| **Funciones de orden superior y lambdas**                              | [https://kotlinlang.org/docs/lambdas.html](https://kotlinlang.org/docs/lambdas.html)                                 |
+| **Condiciones y ciclos: `if`, `when`, `for`, `while` y `do-while`**    | [https://kotlinlang.org/docs/control-flow.html](https://kotlinlang.org/docs/control-flow.html)                       |
+| **Manejo de excepciones: `try`, `catch`, `finally` y `throw`**         | [https://kotlinlang.org/docs/exceptions.html](https://kotlinlang.org/docs/exceptions.html)                           |

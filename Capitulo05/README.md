@@ -1,34 +1,25 @@
-# Laboratorio 5 — Aplicación Multimedia con Cámara, Galería y Reproducción de Medios
+# Laboratorio 5.1 — Aplicación Multimedia con Cámara, Galería y Reproducción de Medios
 
-## 1. Metadatos
 
-| Campo | Valor |
-|---|---|
-| **Duración** | 216 minutos (aprox. 3 h 36 min) |
-| **Complejidad** | Alta |
-| **Nivel Bloom** | Crear |
+## Descripción General
 
----
+En este laboratorio del curso básico construirás **TaskManagerMedia**, una extensión de la aplicación TaskManagerUI del Laboratorio 4.1 que integra funcionalidades multimedia completas. Implementarás el modelo de permisos en tiempo de ejecución para cámara y almacenamiento, capturarás fotografías con la cámara del dispositivo, seleccionarás imágenes de la galería, reproducirás audio y video desde recursos locales, e integrarás todo en un flujo coherente donde las tareas pueden tener imágenes adjuntas y sonidos de notificación al completarse. Como cierre, implementarás detección básica de agitación del dispositivo usando el acelerómetro.
 
-## 2. Descripción General
+<br/><br/>
 
-En este laboratorio final del curso básico construirás **TaskManagerMedia**, una extensión de la aplicación TaskManagerUI del Laboratorio 4 que integra funcionalidades multimedia completas. Implementarás el modelo de permisos en tiempo de ejecución para cámara y almacenamiento, capturarás fotografías con la cámara del dispositivo, seleccionarás imágenes de la galería, reproducirás audio y video desde recursos locales, e integrarás todo en un flujo coherente donde las tareas pueden tener imágenes adjuntas y sonidos de notificación al completarse. Como cierre, implementarás detección básica de agitación del dispositivo usando el acelerómetro.
-
----
-
-## 3. Objetivos de Aprendizaje
+## Objetivos de Aprendizaje
 
 Al completar este laboratorio serás capaz de:
 
-- [ ] Implementar el modelo de permisos en tiempo de ejecución usando `ActivityResultContracts.RequestMultiplePermissions` para cámara y almacenamiento, manejando los flujos de concesión, rationale y denegación permanente.
-- [ ] Capturar fotografías con la cámara del dispositivo mediante `ActivityResultContracts.TakePicture()` con `FileProvider` y seleccionar imágenes de la galería con `ActivityResultContracts.GetContent()`, mostrándolas eficientemente en `ImageView` usando `BitmapFactory` con submuestreo y Glide.
-- [ ] Implementar reproducción de audio con `MediaPlayer` (play/pause/stop) y video con `VideoView` + `MediaController`, manejando correctamente el ciclo de vida de ambos componentes.
-- [ ] Integrar todas las funcionalidades multimedia en la aplicación TaskManagerMedia: adjuntar imágenes a tareas, mostrar miniaturas en el RecyclerView y reproducir sonido de notificación al completar una tarea.
-- [ ] Detectar agitación del dispositivo mediante `SensorManager` y `SensorEventListener` del acelerómetro para mostrar un `Toast` informativo.
+- Implementar el modelo de permisos en tiempo de ejecución usando `ActivityResultContracts.RequestMultiplePermissions` para cámara y almacenamiento, manejando los flujos de concesión, rationale y denegación permanente.
+- Capturar fotografías con la cámara del dispositivo mediante `ActivityResultContracts.TakePicture()` con `FileProvider` y seleccionar imágenes de la galería con `ActivityResultContracts.GetContent()`, mostrándolas eficientemente en `ImageView` usando `BitmapFactory` con submuestreo y Glide.
+- Implementar reproducción de audio con `MediaPlayer` (play/pause/stop) y video con `VideoView` + `MediaController`, manejando correctamente el ciclo de vida de ambos componentes.
+- Integrar todas las funcionalidades multimedia en la aplicación TaskManagerMedia: adjuntar imágenes a tareas, mostrar miniaturas en el RecyclerView y reproducir sonido de notificación al completar una tarea.
+- Detectar agitación del dispositivo mediante `SensorManager` y `SensorEventListener` del acelerómetro para mostrar un `Toast` informativo.
 
----
+<br/><br/>
 
-## 4. Prerrequisitos
+## Prerrequisitos
 
 ### Conocimientos Previos
 
@@ -49,57 +40,10 @@ Al completar este laboratorio serás capaz de:
 | Conexión a Internet | Para descarga de dependencias Gradle y Glide |
 | Archivos multimedia de prueba | Se proporcionan instrucciones para obtener/crear `notification.mp3` e `intro.mp4` |
 
----
 
-## 5. Entorno del Laboratorio
+<br/><br/>
 
-### Hardware Mínimo
-
-| Componente | Especificación |
-|---|---|
-| Procesador | Intel Core i5 8ª gen. o AMD Ryzen 5 (64-bit, VT-x/AMD-V habilitado) |
-| RAM | 16 GB mínimo (32 GB recomendado) |
-| Disco | 50 GB libres en SSD |
-| GPU | Compatible con OpenGL ES 2.0+ |
-| Pantalla | 1280×800 mínimo (1920×1080 recomendado) |
-
-### Software Requerido
-
-| Software | Versión |
-|---|---|
-| Android Studio | Quail 3 — 2026.1.3 Patch 1 |
-| Kotlin | 2.2.10 |
-| AGP | 9.3.2 |
-| Gradle | 9.3.2 |
-| JDK | 11 (JavaVersion.VERSION_11) |
-| compileSdk / targetSdk | 37 |
-| minSdk | 30 |
-| Compose BOM | 2026.02.01 |
-| Glide | 4.16.0 |
-
-### Estructura de Directorios del Proyecto
-
-```
-C:\AndroidCursoBasico\Lab5\TaskManagerMedia\   (Windows)
-~/AndroidCursoBasico/Lab5/TaskManagerMedia/     (macOS/Linux)
-```
-
-### Configuración Inicial — Verificar Cámara en AVD
-
-Antes de comenzar, verifica que tus AVDs tengan la cámara habilitada:
-
-1. Abre **Android Studio → Device Manager**.
-2. Selecciona tu AVD (API 37 recomendado para desarrollo) → clic en el icono de **lápiz** (Edit).
-3. Clic en **Show Advanced Settings**.
-4. En la sección **Camera**, configura:
-   - **Front:** `Emulated` o `Webcam0`
-   - **Back:** `Emulated` o `Webcam0`
-5. Clic en **Finish**.
-6. Repite para los AVDs de API 30, 35 y 36.
-
----
-
-## 6. Instrucciones Paso a Paso
+## Instrucciones
 
 ### Paso 1 — Crear el Proyecto TaskManagerMedia
 
@@ -118,7 +62,7 @@ Antes de comenzar, verifica que tus AVDs tengan la cámara habilitada:
 4. Configura el proyecto:
    - **Name:** `TaskManagerMedia`
    - **Package name:** `com.cursokotlin.android.taskmanagermedia`
-   - **Save location:** `C:\AndroidCursoBasico\Lab5\TaskManagerMedia` (Windows) o `~/AndroidCursoBasico/Lab5/TaskManagerMedia` (macOS/Linux)
+   - **Save location:** `C:\AndroidCursoBasico\Lab5\TaskManagerMedia` 
    - **Language:** Kotlin
    - **Minimum SDK:** API 30: Android 11.0 (R)
    - **Build configuration language:** Kotlin DSL (build.gradle.kts)
@@ -258,6 +202,8 @@ rootProject.name = "TaskManagerMedia"
 include(":app")
 ```
 
+<br/>
+
 9. Sincroniza Gradle: **File → Sync Project with Gradle Files**.
 
 **Resultado Esperado:**
@@ -269,7 +215,7 @@ La sincronización de Gradle completa sin errores. El proyecto aparece en el pan
 - En la ventana **Build**, confirma el mensaje `BUILD SUCCESSFUL`.
 - En el panel **Project**, verifica que existe `app/build.gradle.kts` con `compileSdk = 37`.
 
----
+<br/><br/>
 
 ### Paso 2 — Preparar Archivos Multimedia y Recursos
 
@@ -297,7 +243,7 @@ La sincronización de Gradle completa sin errores. El proyecto aparece en el pan
 
    Copia el archivo `intro.mp4` a `app/src/main/res/raw/`.
 
-   > **Importante:** Los nombres de archivos en `res/raw` deben ser minúsculas, sin espacios ni caracteres especiales. Solo letras, números y guiones bajos.
+   > **Importante:** Los nombres de archivos en `res/raw` deben ser **minúsculas**, **sin espacios** ni **caracteres especiales**. Solo letras, números y guiones bajos.
 
 4. **Imágenes placeholder** — Crea dos imágenes vectoriales drawable:
 
@@ -325,7 +271,7 @@ La sincronización de Gradle completa sin errores. El proyecto aparece en el pan
    - **Name:** `ic_broken_image`
    - **Clip Art:** busca "broken image" → selecciona el icono de imagen rota
    - **Size:** 48dp × 48dp
-   - **Color:** `#FFE57373` (rojo claro)
+   - **Color:** `#FFE57373` (rojo claro, solo si es posible)
    - Clic en **Next** → **Finish**.
 
 6. Verifica que los archivos existen en las rutas correctas:
@@ -338,6 +284,8 @@ app/src/main/res/drawable/ic_camera.xml
 app/src/main/res/drawable/ic_broken_image.xml
 ```
 
+<br/>
+
 **Resultado Esperado:**
 
 Los archivos multimedia están en `res/raw/` y los drawables vectoriales en `res/drawable/`. No hay errores de compilación.
@@ -347,7 +295,8 @@ Los archivos multimedia están en `res/raw/` y los drawables vectoriales en `res
 - En el panel **Project** (vista Android), expande `res/raw` y confirma que aparecen `notification` e `intro`.
 - Expande `res/drawable` y confirma que aparecen `ic_placeholder`, `ic_camera` e `ic_broken_image`.
 
----
+<br/><br/>
+
 
 ### Paso 3 — Configurar AndroidManifest.xml con Permisos y FileProvider
 
@@ -533,16 +482,18 @@ Los archivos multimedia están en `res/raw/` y los drawables vectoriales en `res
 </resources>
 ```
 
+<br/>
+
 **Resultado Esperado:**
 
 El manifiesto declara permisos de cámara y almacenamiento, configura el `FileProvider` con rutas válidas, y declara las 4 Activities del proyecto.
 
 **Verificación:**
 
-- Compila el proyecto con **Build → Make Project** (Ctrl+F9). No debe haber errores.
 - Verifica que `res/xml/file_paths.xml` existe y no tiene errores de XML.
 
----
+<br/><br/>
+
 
 ### Paso 4 — Crear el Modelo de Datos y el Repositorio
 
@@ -672,16 +623,19 @@ object TareaRepository {
 }
 ```
 
+<br/>
+
 **Resultado Esperado:**
 
 El modelo `Tarea` incluye un campo `imagenUri` opcional para imágenes adjuntas. El repositorio singleton proporciona operaciones CRUD con datos de ejemplo.
 
 **Verificación:**
 
-- Compila el proyecto: **Build → Make Project**. No debe haber errores.
+- Compila el proyecto: **Build**. No debe haber errores.
 - Verifica que las importaciones de `android.net.Uri` se resolvieron correctamente.
 
----
+<br/><br/>
+
 
 ### Paso 5 — Crear el ViewModel
 
@@ -766,15 +720,18 @@ class TareaViewModel : ViewModel() {
 }
 ```
 
+<br/>
+
 **Resultado Esperado:**
 
 El `TareaViewModel` expone LiveData para la lista de tareas, la tarea seleccionada y mensajes de feedback al usuario.
 
 **Verificación:**
 
-- Compila el proyecto: **Build → Make Project**. No debe haber errores.
+- Compila el proyecto: **Build**. No debe haber errores.
 
----
+<br/><br/>
+
 
 ### Paso 6 — Crear la Utilidad de Permisos
 
@@ -914,16 +871,19 @@ object PermissionHelper {
 }
 ```
 
+<br/>
+
 **Resultado Esperado:**
 
 La clase `PermissionHelper` centraliza toda la lógica de permisos: verificación, rationale, solicitud y manejo de denegación permanente.
 
 **Verificación:**
 
-- Compila el proyecto: **Build → Make Project**. No debe haber errores.
+- Compila el proyecto: **Build**. No debe haber errores.
 - Verifica que las importaciones de `android.Manifest`, `Build.VERSION_CODES` y `ActivityResultLauncher` se resolvieron correctamente.
 
----
+<br/><br/>
+
 
 ### Paso 7 — Crear la Utilidad de Imágenes
 
@@ -1086,16 +1046,19 @@ object ImageHelper {
 }
 ```
 
+<br/>
+
 **Resultado Esperado:**
 
 La clase `ImageHelper` proporciona métodos para crear archivos de imagen, decodificar con submuestreo eficiente y cargar imágenes con Glide.
 
 **Verificación:**
 
-- Compila el proyecto: **Build → Make Project**. No debe haber errores.
+- Compila el proyecto: **Build**. No debe haber errores.
 - Verifica que la importación de Glide (`com.bumptech.glide.Glide`) se resuelve correctamente.
 
----
+<br/><br/>
+
 
 ### Paso 8 — Crear los Layouts XML
 
@@ -1628,9 +1591,10 @@ Los 5 archivos de layout están creados sin errores de XML. El preview del edito
 **Verificación:**
 
 - Abre cada layout en el editor visual (pestaña **Design**) y verifica que los componentes se muestran correctamente.
-- Compila el proyecto: **Build → Make Project**. No debe haber errores de layout.
+- Compila el proyecto: **Build**. No debe haber errores de layout.
 
----
+<br/><br/>
+
 
 ### Paso 9 — Crear el Adapter del RecyclerView
 
@@ -1719,15 +1683,18 @@ class TareaAdapter(
 }
 ```
 
+<br/><br/>
+
 **Resultado Esperado:**
 
 El adapter utiliza View Binding, muestra miniaturas con Glide, aplica estilos visuales diferenciados para tareas completadas y maneja clicks.
 
 **Verificación:**
 
-- Compila el proyecto: **Build → Make Project**. No debe haber errores.
+- Compila el proyecto: **Build**. No debe haber errores.
 
----
+<br/><br/>
+
 
 ### Paso 10 — Implementar MainActivity
 
@@ -1752,6 +1719,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -1768,16 +1736,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: TareaViewModel by viewModels()
     private lateinit var adapter: TareaAdapter
-
-    // Sensor de acelerómetro
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
-    private var lastShakeTime: Long = 0
-    private val SHAKE_THRESHOLD = 12.0f
-    private val SHAKE_COOLDOWN_MS = 2000L
+    private var lastShakeTime = 0L
+
+    private val shakeThreshold = 12f
+    private val shakeCooldownMs = 2_000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -1787,6 +1755,26 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         setupSensor()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // Actualiza la lista al regresar de crear o modificar una tarea.
+        viewModel.cargarTareas()
+
+        accelerometer?.let { sensor ->
+            sensorManager.registerListener(
+                this,
+                sensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        }
+    }
+
+    override fun onPause() {
+        sensorManager.unregisterListener(this)
+        super.onPause()
+    }
+
     private fun setupRecyclerView() {
         adapter = TareaAdapter { tarea ->
             val intent = Intent(this, TaskDetailActivity::class.java).apply {
@@ -1794,3 +1782,770 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
             startActivity(intent)
         }
+
+        binding.rvTareas.layoutManager = LinearLayoutManager(this)
+        binding.rvTareas.adapter = adapter
+    }
+
+    private fun setupObservers() {
+        viewModel.tareas.observe(this) { tareas ->
+            adapter.actualizarTareas(tareas)
+
+            binding.tvEmpty.visibility =
+                if (tareas.isEmpty()) View.VISIBLE else View.GONE
+
+            val pendientes = tareas.count { !it.completada }
+            binding.tvTaskCount.text =
+                "${tareas.size} tareas ($pendientes pendientes)"
+        }
+    }
+
+    private fun setupButtons() {
+        binding.btnAddTask.setOnClickListener {
+            startActivity(Intent(this, AddTaskActivity::class.java))
+        }
+
+        binding.btnMediaPlayer.setOnClickListener {
+            startActivity(Intent(this, MediaPlayerActivity::class.java))
+        }
+    }
+
+    private fun setupSensor() {
+        sensorManager =
+            getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        accelerometer =
+            sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+
+        if (accelerometer == null) {
+            Toast.makeText(
+                this,
+                R.string.sensor_not_available,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        if (event.sensor.type != Sensor.TYPE_ACCELEROMETER) return
+
+        val x = event.values[0]
+        val y = event.values[1]
+        val z = event.values[2]
+
+        val acceleration = sqrt(x * x + y * y + z * z)
+        val movement = acceleration - SensorManager.GRAVITY_EARTH
+        val now = SystemClock.elapsedRealtime()
+
+        if (movement > shakeThreshold &&
+            now - lastShakeTime > shakeCooldownMs
+        ) {
+            lastShakeTime = now
+
+            Toast.makeText(
+                this,
+                R.string.shake_detected,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
+}
+```
+
+<br/>
+
+
+### Paso 11 — Implementar `AddTaskActivity`
+
+**Objetivo:** Crear la pantalla para registrar una tarea y adjuntarle una imagen tomada con la cámara o seleccionada de la galería.
+
+**Instrucciones:**
+
+1. En el paquete `com.cursokotlin.android.taskmanagermedia.ui`, crea una clase Kotlin llamada `AddTaskActivity`.
+
+2. Abre `AddTaskActivity.kt` y coloca el código de esta Activity que ya agregaste. Comprueba que el paquete sea `.ui` y que utilice `ActivityAddTaskBinding` para cargar `activity_add_task.xml`.
+
+3. Revisa que el código conecte los campos de título y descripción, la imagen (`ivPreview`) y los botones **Tomar foto**, **Galería** y **Guardar tarea** con las vistas definidas en el XML.
+
+```kotlin
+package com.cursokotlin.android.taskmanagermedia.ui
+
+import android.Manifest
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
+import com.cursokotlin.android.taskmanagermedia.databinding.ActivityAddTaskBinding
+import com.cursokotlin.android.taskmanagermedia.util.ImageHelper
+import com.cursokotlin.android.taskmanagermedia.viewmodel.TareaViewModel
+import java.io.IOException
+
+class AddTaskActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAddTaskBinding
+    private val viewModel: TareaViewModel by viewModels()
+    private var selectedImageUri: Uri? = null
+    private var pendingCameraUri: Uri? = null
+
+    private val takePicture =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) {
+                success ->
+            if (success) {
+                selectedImageUri = pendingCameraUri
+                showSelectedImage()
+            } else {
+                pendingCameraUri = null
+            }
+        }
+
+    private val pickImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+                uri ->
+            if (uri != null) {
+                selectedImageUri = uri
+                showSelectedImage()
+            }
+        }
+
+    private val requestCameraPermission =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { granted ->
+            if (granted) {
+                launchCamera()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Se necesita el permiso de cámara para tomar la foto",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityAddTaskBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        pendingCameraUri =
+            savedInstanceState?.getString("PENDING_CAMERA_URI")?.let(Uri::parse)
+        selectedImageUri =
+            savedInstanceState?.getString("SELECTED_IMAGE_URI")?.let(Uri::parse)
+
+        showSelectedImage()
+        setupButtons()
+        setupValidation()
+        observeMessages()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("PENDING_CAMERA_URI", pendingCameraUri?.toString())
+        outState.putString("SELECTED_IMAGE_URI", selectedImageUri?.toString())
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun setupButtons() {
+        binding.btnTakePhoto.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                launchCamera()
+            } else {
+                requestCameraPermission.launch(Manifest.permission.CAMERA)
+            }
+        }
+
+        binding.btnPickGallery.setOnClickListener {
+            pickImage.launch("image/*")
+        }
+
+        binding.btnSaveTask.setOnClickListener {
+            val title = binding.etTaskTitle.text?.toString().orEmpty()
+            val description =
+                binding.etTaskDescription.text?.toString().orEmpty()
+
+            if (title.isBlank()) {
+                binding.tilTitle.error = "Escribe un título"
+                return@setOnClickListener
+            }
+
+            viewModel.agregarTarea(title, description, selectedImageUri)
+            finish()
+        }
+    }
+
+    private fun setupValidation() {
+        binding.etTaskTitle.doAfterTextChanged { text ->
+            binding.tilTitle.error =
+                if (text.isNullOrBlank()) "Escribe un título" else null
+
+            binding.btnSaveTask.isEnabled = !text.isNullOrBlank()
+        }
+
+        binding.btnSaveTask.isEnabled =
+            !binding.etTaskTitle.text.isNullOrBlank()
+    }
+
+    private fun observeMessages() {
+        viewModel.mensaje.observe(this) { message ->
+            if (!message.isNullOrBlank()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                viewModel.limpiarMensaje()
+            }
+        }
+    }
+
+    private fun launchCamera() {
+        try {
+            val (_, uri) = ImageHelper.createImageFile(this)
+            pendingCameraUri = uri
+            takePicture.launch(uri)
+        } catch (e: IOException) {
+            Toast.makeText(
+                this,
+                "No se pudo preparar el archivo de la foto",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun showSelectedImage() {
+        ImageHelper.loadImageWithGlide(
+            this,
+            selectedImageUri,
+            binding.ivPreview
+        )
+    }
+}
+```
+
+<br/>
+
+### Paso 12 — Implementar `TaskDetailActivity`
+
+**Objetivo:** Mostrar la información de una tarea y permitir marcarla como completada o eliminarla.
+
+**Instrucciones:**
+
+1. En el paquete `com.cursokotlin.android.taskmanagermedia.ui`, crea una clase Kotlin llamada `TaskDetailActivity`.
+
+2. Abre `TaskDetailActivity.kt` y agrega el código de esta Activity que ya tienes. Comprueba que utilice `ActivityTaskDetailBinding` para cargar `activity_task_detail.xml`.
+
+3. Verifica que la Activity reciba el identificador enviado desde `MainActivity` mediante el extra `TAREA_ID` y lo use para seleccionar la tarea en `TareaViewModel`.
+
+4. Observa la tarea seleccionada y muestra su título (`tvDetailTitle`), estado (`tvDetailEstado`), descripción (`tvDetailDescription`) e imagen (`ivDetailImage`), si tiene una asociada.
+
+5. Configura **Marcar como completada** (`btnMarkComplete`) para actualizar el estado mediante el `ViewModel`. Comprueba que el estado mostrado en pantalla se actualice después del cambio.
+
+6. Configura **Eliminar tarea** (`btnDelete`) para eliminarla mediante el `ViewModel` y regresar a la pantalla principal.
+
+
+```kotlin
+package com.cursokotlin.android.taskmanagermedia.ui
+
+import android.media.MediaPlayer
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.cursokotlin.android.taskmanagermedia.R
+import com.cursokotlin.android.taskmanagermedia.databinding.ActivityTaskDetailBinding
+import com.cursokotlin.android.taskmanagermedia.model.Tarea
+import com.cursokotlin.android.taskmanagermedia.util.ImageHelper
+import com.cursokotlin.android.taskmanagermedia.viewmodel.TareaViewModel
+
+class TaskDetailActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityTaskDetailBinding
+    private val viewModel: TareaViewModel by viewModels()
+
+    private var taskId = -1
+    private var notificationPlayer: MediaPlayer? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityTaskDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        taskId = intent.getIntExtra("TAREA_ID", -1)
+        if (taskId == -1) {
+            finish()
+            return
+        }
+
+        observeTask()
+        setupButtons()
+        viewModel.seleccionarTarea(taskId)
+    }
+
+    private fun observeTask() {
+        viewModel.tareaSeleccionada.observe(this) { tarea ->
+            if (tarea == null) {
+                Toast.makeText(
+                    this,
+                    "La tarea no existe",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            } else {
+                showTask(tarea)
+            }
+        }
+    }
+
+    private fun showTask(tarea: Tarea) {
+        binding.tvDetailTitle.text = tarea.titulo
+        binding.tvDetailEstado.text = tarea.estadoTexto()
+        binding.tvDetailDescription.text = tarea.descripcion
+        binding.btnMarkComplete.isEnabled = !tarea.completada
+
+        if (tarea.imagenUri != null) {
+            binding.ivDetailImage.visibility = View.VISIBLE
+            ImageHelper.loadImageWithGlide(
+                this,
+                tarea.imagenUri,
+                binding.ivDetailImage
+            )
+        } else {
+            binding.ivDetailImage.visibility = View.GONE
+        }
+    }
+
+    private fun setupButtons() {
+        binding.btnMarkComplete.setOnClickListener {
+            viewModel.marcarCompletada(taskId)
+            playNotification()
+            Toast.makeText(
+                this,
+                R.string.task_completed_message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        binding.btnDelete.setOnClickListener {
+            viewModel.eliminarTarea(taskId)
+            Toast.makeText(
+                this,
+                R.string.task_deleted_message,
+                Toast.LENGTH_SHORT
+            ).show()
+            finish()
+        }
+    }
+
+    private fun playNotification() {
+        notificationPlayer?.release()
+
+        notificationPlayer =
+            MediaPlayer.create(this, R.raw.notification)?.apply {
+                setOnCompletionListener { player ->
+                    player.release()
+                    if (notificationPlayer === player) {
+                        notificationPlayer = null
+                    }
+                }
+                start()
+            }
+    }
+
+    override fun onStop() {
+        notificationPlayer?.release()
+        notificationPlayer = null
+        super.onStop()
+    }
+}
+```
+
+<br/><br/>
+
+### Paso 13 — Implementar `MediaPlayerActivity`
+
+**Objetivo:** Reproducir el audio y el video incluidos en los recursos de la aplicación.
+
+**Instrucciones:**
+
+1. En el paquete `com.cursokotlin.android.taskmanagermedia.ui`, crea una clase Kotlin llamada `MediaPlayerActivity`.
+
+2. Abre `MediaPlayerActivity.kt` y agrega el código de esta Activity que ya tienes. Comprueba que utilice `ActivityMediaPlayerBinding` para cargar `activity_media_player.xml`.
+
+3. Verifica que el audio se cargue desde `res/raw` y que los botones **Play** (`btnAudioPlay`), **Pause** (`btnAudioPause`) y **Stop** (`btnAudioStop`) controlen su reproducción.
+
+4. Comprueba que `seekBarAudio` y `tvAudioProgress` muestren el avance del audio y que la barra permita cambiar la posición de reproducción.
+
+5. Verifica que `videoView` cargue el video incluido en `res/raw` y permita reproducirlo con sus controles.
+
+
+```kotlin
+package com.cursokotlin.android.taskmanagermedia.ui
+
+import android.media.MediaPlayer
+import android.net.Uri
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.MediaController
+import android.widget.SeekBar
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.cursokotlin.android.taskmanagermedia.R
+import com.cursokotlin.android.taskmanagermedia.databinding.ActivityMediaPlayerBinding
+import java.util.Locale
+
+class MediaPlayerActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMediaPlayerBinding
+    private var audioPlayer: MediaPlayer? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private val progressUpdater = object : Runnable {
+        override fun run() {
+            val player = audioPlayer ?: return
+            binding.seekBarAudio.progress = player.currentPosition
+            updateProgressText()
+            handler.postDelayed(this, 500)
+        }
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMediaPlayerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupAudio()
+        setupVideo()
+    }
+    private fun setupAudio() {
+        audioPlayer = MediaPlayer.create(this, R.raw.notification)
+
+        val player = audioPlayer
+        if (player == null) {
+            Toast.makeText(
+                this,
+                "No se pudo abrir notification.mp3",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        binding.seekBarAudio.max = player.duration
+        updateProgressText()
+
+        player.setOnCompletionListener {
+            handler.removeCallbacks(progressUpdater)
+            binding.seekBarAudio.progress = player.duration
+            updateProgressText()
+        }
+
+        binding.btnAudioPlay.setOnClickListener {
+            if (player.currentPosition >= player.duration) {
+                player.seekTo(0)
+            }
+            player.start()
+            handler.removeCallbacks(progressUpdater)
+            handler.post(progressUpdater)
+        }
+
+        binding.btnAudioPause.setOnClickListener {
+            if (player.isPlaying) player.pause()
+            handler.removeCallbacks(progressUpdater)
+            updateProgressText()
+        }
+
+        binding.btnAudioStop.setOnClickListener {
+            if (player.isPlaying) player.pause()
+            player.seekTo(0)
+            handler.removeCallbacks(progressUpdater)
+            binding.seekBarAudio.progress = 0
+            updateProgressText()
+        }
+
+        binding.seekBarAudio.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if (fromUser) {
+                        player.seekTo(progress)
+                        updateProgressText()
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+            }
+        )
+    }
+    private fun setupVideo() {
+        val videoUri = Uri.parse(
+            "android.resource://$packageName/${R.raw.intro}"
+        )
+
+        val controller = MediaController(this).apply {
+            setAnchorView(binding.videoView)
+        }
+
+        binding.videoView.setVideoURI(videoUri)
+        binding.videoView.setMediaController(controller)
+
+        binding.videoView.setOnErrorListener { _, _, _ ->
+            Toast.makeText(
+                this,
+                "No se pudo reproducir intro.mp4",
+                Toast.LENGTH_LONG
+            ).show()
+            true
+        }
+    }
+    private fun updateProgressText() {
+        val player = audioPlayer ?: return
+        binding.tvAudioProgress.text =
+            "${formatTime(player.currentPosition)} / " +
+                    formatTime(player.duration)
+    }
+    private fun formatTime(milliseconds: Int): String {
+        val seconds = milliseconds / 1_000
+        return String.format(
+            Locale.getDefault(),
+            "%02d:%02d",
+            seconds / 60,
+            seconds % 60
+        )
+    }
+
+    override fun onStop() {
+        handler.removeCallbacks(progressUpdater)
+
+        audioPlayer?.let { player ->
+            if (player.isPlaying) player.pause()
+        }
+
+        binding.videoView.pause()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        handler.removeCallbacks(progressUpdater)
+        audioPlayer?.release()
+        audioPlayer = null
+        binding.videoView.stopPlayback()
+        super.onDestroy()
+    }
+}
+```
+
+<br/><br/>
+
+### Paso 14 — Verificar cámara, galería, permisos e imágenes
+
+**Objetivo:** Comprobar que es posible adjuntar una imagen a una tarea desde la cámara o la galería y verla después en el detalle.
+
+**Instrucciones:**
+
+1. Ejecuta la aplicación y abre **Agregar tarea**. Escribe un título para poder guardar la tarea.
+
+2. Toca **Tomar foto**. Si Android solicita permiso para usar la cámara, concédelo. Captura una imagen y confirma la operación.
+
+3. Verifica que la fotografía aparezca en la vista de imagen de **Agregar tarea**. Guarda la tarea, ábrela desde la lista y comprueba que la imagen también se muestre en **Detalles**.
+
+4. Crea otra tarea y toca **Galería**. Selecciona una imagen, verifica que aparezca antes de guardar y comprueba que siga visible al abrir el detalle de la tarea.
+
+5. Repite la prueba de cámara y **deniega el permiso** cuando Android lo solicite. Comprueba que la aplicación informe lo ocurrido y permanezca abierta.
+
+6. Cancela una captura de cámara y, en otra prueba, cancela la selección de la galería. Verifica que puedas continuar usando la pantalla sin guardar una imagen.
+
+<br/>
+
+**Resultado esperado:** Las imágenes seleccionadas o capturadas se muestran en la tarea correspondiente. La aplicación también responde correctamente cuando se deniega un permiso o se cancela una operación.
+
+
+<br/><br/>
+
+### Paso 15 — Verificar audio, video y controles del reproductor
+
+**Objetivo:** Comprobar que los archivos multimedia se reproducen y que sus controles responden correctamente.
+
+**Instrucciones:**
+
+1. Ejecuta la aplicación y toca **Reproductor** en la pantalla principal.
+
+2. En **Audio de Notificación**, toca **Play** y confirma que se escucha el audio. Observa que la barra y el tiempo de reproducción avancen.
+
+3. Toca **Pause** y comprueba que el audio y el indicador de progreso se detengan. Toca **Play** para reanudarlo.
+
+4. Mueve la barra de progreso a otra posición y comprueba que la reproducción continúe desde ese punto.
+
+5. Toca **Stop** y verifica que el audio se detenga y el indicador vuelva al inicio.
+
+6. En **Video de Introducción**, inicia la reproducción. Prueba los controles para pausar, reanudar y cambiar de posición.
+
+7. Regresa a la pantalla principal mientras se reproduce audio o video. Comprueba que el sonido se detenga y que la aplicación continúe funcionando normalmente.
+
+<br/>
+
+**Resultado esperado:** El audio y el video se reproducen; los controles permiten pausarlos, reanudarlos y cambiar de posición. Al salir del reproductor, no queda audio reproduciéndose en segundo plano.
+
+
+### Paso 16 — Realizar las pruebas finales y documentar resultados
+
+**Objetivo:** Verificar el flujo completo de la aplicación y registrar los resultados obtenidos.
+
+**Instrucciones:**
+
+1. Ejecuta **Build → Make Project** y confirma que la compilación termine correctamente.
+
+2. Ejecuta la aplicación y prueba el flujo completo:
+
+   - Consulta la lista inicial de tareas.
+   - Crea una tarea sin imagen y otra con imagen de la cámara o la galería.
+   - Abre el detalle de ambas tareas.
+   - Marca una tarea como completada y elimina otra.
+   - Reproduce audio y video; prueba sus controles.
+   - Si implementaste la detección de agitación, comprueba su comportamiento en un dispositivo que cuente con acelerómetro.
+
+3. Durante las pruebas, revisa que la aplicación permanezca abierta y que **Logcat** no muestre excepciones que provoquen su cierre.
+
+4. En la raíz del proyecto, abre o crea `README.md`. Documenta las siguientes secciones:
+
+   - **Descripción y objetivo**
+   - **Requisitos para ejecutar el proyecto**
+   - **Funcionalidades implementadas**
+   - **Permisos utilizados**
+   - **Pasos para ejecutar la aplicación**
+   - **Pruebas realizadas y resultados**
+   - **Problemas encontrados y soluciones**
+
+5. En **Pruebas realizadas y resultados**, registra cada caso probado y su resultado real. Agrega capturas de pantalla de la lista, creación, detalle y reproductor si las utilizarás como evidencia del laboratorio.
+
+```md
+# TaskManagerMedia
+
+Aplicación Android de práctica para administrar tareas y trabajar con imágenes, permisos, audio y video. Desarrollada en Kotlin con interfaces XML.
+
+## Funcionalidades
+
+- Consultar la lista de tareas y abrir sus detalles.
+- Crear tareas con título, descripción opcional e imagen opcional.
+- Adjuntar imágenes mediante la cámara o la galería.
+- Marcar tareas como completadas y eliminarlas.
+- Reproducir audio y video incluidos en la aplicación.
+- Detectar una agitación del dispositivo mediante el acelerómetro, cuando esté disponible.
+
+## Requisitos
+
+- Android Studio con el SDK configurado.
+- Dispositivo o emulador con Android 11 (API 30) o posterior, según `minSdk = 30`.
+- Cámara y acelerómetro para probar las funciones que dependen de ese hardware.
+- Archivos `app/src/main/res/raw/notification.mp3` e `intro.mp4` para probar el reproductor.
+
+El proyecto usa View Binding, RecyclerView, LiveData, ViewModel, Material Components y Glide. Las dependencias se declaran en Gradle.
+
+## Estructura principal
+
+| Elemento | Responsabilidad |
+| --- | --- |
+| `MainActivity` | Lista de tareas y acceso a las demás pantallas. |
+| `AddTaskActivity` | Captura de datos e imagen de una nueva tarea. |
+| `TaskDetailActivity` | Detalle, finalización y eliminación de tareas. |
+| `MediaPlayerActivity` | Reproducción de audio y video. |
+| `TareaViewModel` | Estado observable y acciones sobre las tareas. |
+| `TareaRepository` | Datos de ejemplo y almacenamiento en memoria. |
+| `TareaAdapter` | Presentación de las tareas en el RecyclerView. |
+| `PermissionHelper` / `ImageHelper` | Gestión de permisos y procesamiento de imágenes, respectivamente. |
+
+> Las tareas se conservan en memoria mientras vive el proceso de la aplicación; no se guardan en una base de datos.
+
+## Permisos e imágenes
+
+La captura de fotos utiliza la cámara y un `FileProvider` para compartir de forma controlada la URI del archivo. La selección desde la galería usa el selector de contenido. La aplicación contempla la concesión y denegación de permisos cuando corresponde. Glide carga las imágenes en la interfaz.
+
+## Ejecutar el proyecto
+
+1. Abre la carpeta del proyecto en Android Studio y espera la sincronización de Gradle.
+2. Verifica que existan los recursos multimedia en `app/src/main/res/raw/`.
+3. Selecciona un emulador o conecta un dispositivo compatible.
+4. Ejecuta **Build → Make Project** y después **Run 'app'**.
+5. En **Mis Tareas**, crea una tarea, consulta su detalle y abre **Reproductor** para probar los archivos multimedia.
+
+## Registro de pruebas
+
+Completa la columna **Resultado observado** después de ejecutar cada prueba en tu dispositivo. Una compilación correcta por sí sola no verifica el comportamiento de cámara, permisos, sensores o multimedia.
+
+| Caso | Resultado esperado | Resultado observado |
+| --- | --- | --- |
+| Compilar el proyecto | Compilación correcta. | Pendiente de registrar. |
+| Crear tarea sin imagen | Aparece en la lista y abre su detalle. | Pendiente de registrar. |
+| Capturar y adjuntar una foto | La imagen aparece al crear la tarea y en su detalle. | Pendiente de registrar. |
+| Elegir imagen de la galería | La imagen aparece al crear la tarea y en su detalle. | Pendiente de registrar. |
+| Denegar permiso o cancelar selección | La aplicación permanece abierta y permite continuar. | Pendiente de registrar. |
+| Completar una tarea | El estado mostrado se actualiza. | Pendiente de registrar. |
+| Eliminar una tarea | Deja de aparecer en la lista. | Pendiente de registrar. |
+| Reproducir audio | Play, Pause, Stop y barra de progreso responden. | Pendiente de registrar. |
+| Reproducir video | Reproducción y controles responden. | Pendiente de registrar. |
+| Salir del reproductor | La reproducción se detiene según el ciclo de vida implementado. | Pendiente de registrar. |
+| Agitar el dispositivo | Se ejecuta la acción configurada, si hay acelerómetro. | Pendiente de registrar. |
+
+## Evidencias
+
+Agrega aquí capturas de la lista, creación de tarea, detalle y reproductor, junto con la salida de compilación y las observaciones de las pruebas realizadas.
+
+## Incidencias y soluciones
+
+Registra los problemas encontrados, el mensaje de error y el cambio que los resolvió. Si Android Studio marca en rojo una clase de View Binding pero el proyecto compila, puedes usar **File → Invalidate Caches… → Invalidate and Restart** y esperar la nueva indexación.
+
+
+```
+
+<br/><br/>
+
+**Resultado esperado:** El proyecto compila, los flujos probados funcionan y el `README.md` permite identificar qué implementaste, cómo ejecutarlo y qué resultados obtuviste.
+
+
+<br/><br/>
+
+## Resumen
+
+En este laboratorio ampliaste **TaskManagerMedia** para crear y consultar tareas con imágenes adjuntas. Integraste la captura con cámara, la selección desde la galería, el manejo de permisos y la reproducción de audio y video almacenados en `res/raw`. También verificaste los controles multimedia y el comportamiento de la aplicación al cambiar de pantalla.
+
+<br/>
+
+### Lo que lograste en este laboratorio
+
+- Creaste tareas con título, descripción e imagen opcional.
+- Mostraste las tareas y sus imágenes en la lista y en la pantalla de detalles.
+- Utilizaste la cámara y la galería para adjuntar imágenes, contemplando permisos y cancelaciones.
+- Cargaste imágenes con Glide.
+- Reprodujiste audio y video locales y probaste sus controles.
+- Comprobaste los flujos principales de la aplicación y registraste resultados en `README.md`.
+
+<br/>
+
+### Recursos adicionales
+
+▸ **Captura de fotografías:** referencia del contrato `TakePicture` para guardar una foto en una URI.  
+[https://developer.android.com/reference/androidx/activity/result/contract/ActivityResultContracts.TakePicture](https://developer.android.com/reference/androidx/activity/result/contract/ActivityResultContracts.TakePicture) :chatgpt-content-reference{index="0"}
+
+▸ **Permisos en tiempo de ejecución:** explica cómo solicitar permisos y atender la respuesta del usuario.  
+[https://developer.android.com/training/permissions/requesting](https://developer.android.com/training/permissions/requesting) :chatgpt-content-reference{index="1"}
+
+▸ **Glide:** documentación para cargar y mostrar imágenes en Android.  
+[https://bumptech.github.io/glide/](https://bumptech.github.io/glide/) :chatgpt-content-reference{index="2"}
+
+▸ **MediaPlayer:** documentación de la API utilizada para reproducir archivos multimedia, incluidos los recursos locales.  
+[https://developer.android.com/media/platform/mediaplayer](https://developer.android.com/media/platform/mediaplayer) :chatgpt-content-reference{index="3"}
+
+▸ **Material Symbols:** catálogo para buscar los iconos que puedes utilizar en la interfaz.  
+[https://fonts.google.com/icons?icon.size=24&icon.color=%231f1f1f](https://fonts.google.com/icons?icon.size=24&icon.color=%231f1f1f)
+
+
