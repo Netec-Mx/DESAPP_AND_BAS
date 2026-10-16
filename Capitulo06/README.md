@@ -70,7 +70,7 @@ En este laboratorio implementarás los cuatro mecanismos principales de persiste
 
 <br/><br/>
 
-<OJO> 
+
 
 ### Paso 2 — Configurar el catálogo de versiones `libs.versions.toml`
 
