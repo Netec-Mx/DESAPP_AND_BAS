@@ -1,3 +1,5 @@
+<img src="images/neteclogo (2).png" alt="logo" width="300"/>
+
 # Desarrollo de aplicaciones móviles para Sistemas Operativos Android Nivel Básico
 
 ## Plataforma de laboratorios
